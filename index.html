@@ -1,1150 +1,359 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#eff4ec">
-  <title>Тихий сад</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090e20">
+<meta name="color-scheme" content="dark">
+<title>Тихий сад — Ночное сияние</title>
 
-  <style>
-    :root {
-      --bg: #f6f5ef;
-      --paper: #fffef9;
-      --ink: #293c32;
-      --muted: #728074;
-      --green: #3e7154;
-      --soft: #eaf0e5;
-      --line: #dfe5d9;
-      --danger: #a34d43;
-      --shadow: 0 12px 35px #293c3209;
-    }
+<style>
+:root {
+  --bg: #090e20;
+  --text: #f4f6ff;
+  --muted: #b8c2da;
+  --cyan: #82dcff;
+  --pink: #f4aedf;
+  --line: rgba(225,235,255,.14);
+  --glass: rgba(22,30,55,.78);
+  --radius: 26px;
+}
 
-    * { box-sizing: border-box; }
-    [hidden] { display: none !important; }
+* { box-sizing: border-box }
+[hidden] { display: none !important }
 
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font: 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
 
-    button, input, select, textarea { font: inherit; }
-    button, label, a { -webkit-tap-highlight-color: transparent; }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 5% 5%, #2259ab66, transparent 48%),
+    radial-gradient(ellipse at 95% 25%, #973c8550, transparent 43%),
+    radial-gradient(ellipse at 45% 85%, #40378b44, transparent 45%),
+    #090e20;
+}
 
-    button {
-      cursor: pointer;
-      border: 0;
-      border-radius: 14px;
-      padding: 12px 17px;
-      background: var(--green);
-      color: white;
-      font-weight: 600;
-      min-height: 44px;
-    }
+button, input, select, textarea { font: inherit }
+button { cursor: pointer }
+button, a { -webkit-tap-highlight-color: transparent }
+button:disabled { opacity: .5; cursor: wait }
 
-    button:hover { filter: brightness(.96); }
-    button:disabled { opacity: .5; cursor: wait; }
-    button.secondary { background: var(--soft); color: var(--green); }
-    button.ghost { background: transparent; color: var(--muted); }
-    button.danger { background: #f8eae6; color: var(--danger); }
-    button.small { padding: 8px 12px; font-size: 14px; }
+button {
+  min-height: 44px;
+  padding: 11px 17px;
+  border-radius: 15px;
+  border: 1px solid transparent;
+  background: linear-gradient(120deg, #a3e7ff, #c8c3ff);
+  color: #11182e;
+  font-weight: 650;
+  transition: transform .18s, background .18s;
+}
+button:active { transform: scale(.97) }
+button.secondary {
+  color: var(--text);
+  border-color: var(--line);
+  background: #ffffff09;
+}
+button.ghost {
+  color: var(--muted);
+  background: transparent;
+}
+button.danger { background: #ff8daf16; color: #ffc1cf; border-color: #ff8daf30 }
+button.small { padding: 8px 12px; font-size: 13px }
+.icon-btn { width: 44px; padding: 0; display: grid; place-items: center }
 
-    :focus-visible {
-      outline: 3px solid #9bb98a;
-      outline-offset: 3px;
-    }
+:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px }
 
-    h1, h2, h3, p { margin-top: 0; }
-    h1, h2 {
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: 500;
-      letter-spacing: -.04em;
-    }
-    h1 { font-size: clamp(34px, 7vw, 49px); margin-bottom: 5px; }
-    h2 { font-size: 29px; margin-bottom: 8px; }
-    h3 { font-size: 18px; margin-bottom: 6px; }
+h1,h2,h3,p { margin: 0 }
+h1 { font-size: clamp(30px,6vw,42px); letter-spacing: -.055em; font-weight: 700 }
+h2 { font-size: 23px; letter-spacing: -.035em; font-weight: 650 }
+h3 { font-size: 17px; letter-spacing: -.015em }
+.muted { color: var(--muted) }
+.caption { font-size: 13px; color: var(--muted) }
+.eyebrow { color: var(--cyan); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; font-weight: 650 }
 
-    .app { max-width: 1040px; padding: 30px 22px 65px; margin: auto; }
-    .muted { color: var(--muted); }
-    .eyebrow {
-      color: var(--green);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-    }
+.app {
+  width: min(100%, 1000px);
+  margin: auto;
+  padding: max(28px, env(safe-area-inset-top)) 24px 135px;
+}
+header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 28px }
+header p { margin-top: 4px }
 
-    header, .row, .section-head, .card-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-    }
-    header { margin-bottom: 26px; }
-    header p { margin-bottom: 0; }
-    .section-head { margin: 27px 0 15px; }
+.glass {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--glass);
+  box-shadow: 0 16px 48px #00000020, inset 0 1px 0 #ffffff06;
+}
 
-    nav {
-      display: flex;
-      gap: 7px;
-      padding: 6px;
-      background: #e9ede3;
-      border-radius: 18px;
-      margin-bottom: 22px;
-      overflow-x: auto;
-    }
-    nav button { background: transparent; color: var(--muted); flex: 1; }
-    nav button.active { background: var(--paper); color: var(--green); box-shadow: var(--shadow); }
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass {
+    background: rgba(22,30,55,.65);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+}
 
-    .card {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 23px;
-      padding: 23px;
-      box-shadow: var(--shadow);
-    }
+.section-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 27px 0 16px }
+.section-head .caption { margin-top: 3px }
 
-    .garden {
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(135deg, #edf4e5, #f6f2df);
-      padding-bottom: 0;
-    }
+.garden {
+  padding: 25px 27px 21px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 80% 50%, #c075ce16, transparent 55%),
+    linear-gradient(135deg, #23436670, #202037b8);
+}
+.garden-head, .garden-bottom { display: flex; align-items: center; justify-content: space-between; gap: 15px }
+.pill {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  white-space: nowrap;
+  border: 1px solid #b8dfff25;
+  background: #c8e6ff0a;
+  color: #d5e6ff;
+  padding: 6px 11px;
+  border-radius: 30px;
+  font-size: 12px;
+}
 
-    .garden:after {
-      content: "";
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background: #fff8d8;
-      top: -80px;
-      right: -35px;
-      pointer-events: none;
-      opacity: .75;
-    }
+.scene {
+  min-height: 230px;
+  position: relative;
+  display: flex;
+  align-items: end;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 22px 10px 14px;
+}
+.scene::before {
+  content: "";
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 33px;
+  height: 65px;
+  background: radial-gradient(ellipse, #86baff22, transparent 70%);
+  pointer-events: none;
+}
+.plant {
+  position: relative;
+  flex: 1 0 115px;
+  text-align: center;
+  min-width: 115px;
+}
+.plant svg { width: 120px; height: 150px; overflow: visible }
+.plant-name {
+  display: block;
+  max-width: 145px;
+  margin: auto;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.plant-days { color: var(--muted); font-size: 11px }
+.garden-bottom { padding-top: 15px; border-top: 1px solid #ffffff0b }
+.garden-bottom p { font-size: 13px; color: #ced8ed }
+.level-progress { width: 105px; flex-shrink: 0 }
+.level-progress .caption { text-align: right; margin-bottom: 6px; font-size: 11px }
 
-    .garden-top { position: relative; z-index: 1; }
-    .badge {
-      display: inline-block;
-      background: #ffffff9e;
-      border-radius: 30px;
-      padding: 7px 13px;
-      font-size: 13px;
-      color: var(--green);
-      white-space: nowrap;
-    }
+.track { height: 5px; overflow: hidden; background: #dce5ff10; border-radius: 20px }
+.track > div {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #7bd4f3, #c8b5ef);
+}
+.habits { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 15px }
+.habit { padding: 22px; }
+.habit-top { display: flex; align-items: center; gap: 12px }
+.habit-top .name { flex: 1; min-width: 0 }
+.name h3 { overflow-wrap: anywhere }
+.habit-icon {
+  width: 44px; height: 44px; flex-shrink: 0;
+  display: grid; place-items: center;
+  color: var(--cyan); border-radius: 14px;
+  background: linear-gradient(135deg,#9dddff18,#d497fa12);
+  border: 1px solid #c4deff16;
+  font-size: 21px;
+}
+.habit-number { font-size: 29px; letter-spacing: -.045em; margin: 20px 0 10px; font-weight: 600 }
+.habit-number span { font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 0 }
+.habit-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 18px }
+.preview {
+  margin-top: 15px;
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.done-label { color: #b5ead8; font-size: 12px }
+.empty { text-align: center; padding: 34px 20px; color: var(--muted) }
+.empty h3 { color: var(--text); margin-bottom: 8px }
 
-    .plants {
-      display: flex;
-      align-items: end;
-      gap: 10px;
-      min-height: 175px;
-      overflow-x: auto;
-      padding: 24px 0 18px;
-      position: relative;
-      z-index: 1;
-    }
+.page-title { margin: 7px 0 23px }
+.page-title h2 { font-size: 29px; margin-bottom: 7px }
 
-    .plant {
-      flex: 1 0 100px;
-      min-width: 100px;
-      text-align: center;
-    }
-    .plant-art {
-      display: block;
-      font-size: 57px;
-      line-height: 1.3;
-      transform-origin: bottom center;
-      animation: appear .6s ease both;
-    }
-    .plant-name {
-      display: block;
-      max-width: 150px;
-      margin: 6px auto 0;
-      font-size: 13px;
-      overflow-wrap: anywhere;
-    }
-    .plant-days { color: var(--muted); font-size: 12px; }
+label { display: block; color: var(--muted); font-size: 13px; margin-bottom: 17px }
+input,textarea,select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  margin-top: 7px;
+  border: 1px solid #c4d1f322;
+  border-radius: 14px;
+  padding: 13px;
+  background: #0c1326cc;
+  color: var(--text);
+  font-size: 16px;
+}
+textarea { min-height: 135px; resize: vertical }
+input::placeholder,textarea::placeholder { color: #929eb7 }
+select { color-scheme: dark }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
 
-    @keyframes appear {
-      from { opacity: 0; transform: translateY(8px) scale(.9); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
+.journal { display: grid; gap: 14px }
+.entry { padding: 23px; background: rgba(20,28,49,.92) }
+.entry-top { display: flex; align-items: center; justify-content: space-between; gap: 12px }
+.entry-note { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.75; margin-top: 19px }
+.entry-actions { display: flex; justify-content: flex-end; gap: 5px; margin-top: 13px }
 
-    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
-    .habit-icon {
-      display: grid;
-      place-items: center;
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
-      background: var(--soft);
-      font-size: 26px;
-      flex-shrink: 0;
-    }
-    .habit-title { display: flex; align-items: center; gap: 12px; min-width: 0; }
-    .habit-title h3 { overflow-wrap: anywhere; }
-    .habit-title p { margin: 0; font-size: 13px; }
-    .habit-value { margin: 22px 0 10px; font-size: 29px; font-weight: 600; }
-    .habit-value span { color: var(--muted); font-size: 14px; font-weight: 400; }
-    .track { height: 7px; background: var(--soft); border-radius: 10px; overflow: hidden; }
-    .fill { height: 100%; background: #79a477; border-radius: inherit; }
-    .habit-footer { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 18px; }
+.stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 11px; margin-bottom: 16px }
+.stat { padding: 20px 16px }
+.stat strong { display: block; font-size: 27px; letter-spacing: -.04em; color: #e0ebff }
+.stat span { font-size: 12px; color: var(--muted) }
+.chart-card { padding: 23px; margin-bottom: 16px }
+.chart { display: grid; grid-template-columns: repeat(14,minmax(0,1fr)); gap: 8px; height: 185px; margin-top: 24px }
+.column { min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 9px }
+.bar-space { display: flex; align-items: end; width: 100%; flex: 1 }
+.bar {
+  padding: 0; min-height: 4px; width: 100%;
+  border: 1px solid #aff1ff30;
+  border-radius: 7px 7px 3px 3px;
+  background: linear-gradient(0deg,#4788b2,#9ee5fc);
+}
+.column:last-child .bar { background: linear-gradient(0deg,#9b69b5,#f2b9e0); border-color: #f8ccec40 }
+.column small { font-size: 10px; color: var(--muted) }
+.heatmap { display: grid; grid-template-columns: repeat(14,1fr); gap: 6px; margin-top: 18px }
+.cell { padding: 0; min-height: 0; aspect-ratio: 1; border-radius: 6px; background: #b1c8ff0c; border: 1px solid #b1c8ff08 }
+.cell[data-level="1"] { background: #284760 }
+.cell[data-level="2"] { background: #3c7394 }
+.cell[data-level="3"] { background: #62a9c9 }
+.cell[data-level="4"] { background: #a7e5f7 }
 
-    .empty { padding: 35px 16px; text-align: center; color: var(--muted); }
-    .empty p { margin-bottom: 0; }
+.settings-card { padding: 25px; margin-bottom: 17px }
+.settings-card p { margin-top: 12px; color: var(--muted) }
+.actions { display: flex; flex-wrap: wrap; justify-content: end; gap: 9px; margin-top: 23px }
+.settings-card .actions { justify-content: start }
 
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 17px; }
-    .stat { background: var(--soft); padding: 18px; border-radius: 18px; }
-    .stat strong { display: block; font-size: 28px; }
-    .stat span { font-size: 13px; color: var(--muted); }
+.bottom-nav {
+  position: fixed;
+  z-index: 5;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  padding: 7px;
+  width: min(410px,calc(100% - 32px));
+  border-radius: 23px;
+  background: #101a30ed;
+  box-shadow: 0 10px 50px #00000055;
+}
+.bottom-nav button {
+  flex: 1; min-width: 0;
+  color: var(--muted);
+  background: transparent;
+  border-radius: 17px;
+  display: grid; place-items: center;
+  gap: 3px; font-size: 11px;
+  padding: 9px 6px;
+}
+.bottom-nav button.active {
+  color: #e9f8ff;
+  background: linear-gradient(135deg,#94dfff21,#c28ef519);
+  border-color: #bedbff1b;
+}
+svg.icon { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round }
 
-    .chart {
-      display: grid;
-      grid-template-columns: repeat(14, minmax(0, 1fr));
-      align-items: end;
-      gap: 7px;
-      height: 180px;
-      margin: 24px 0 8px;
-    }
-    .bar-col { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: end; gap: 7px; min-width: 0; }
-    .bar-slot { width: 100%; flex: 1; display: flex; align-items: end; }
-    .bar { width: 100%; background: #89ac7c; border-radius: 7px 7px 3px 3px; min-height: 3px; }
-    .bar-col small { font-size: 10px; color: var(--muted); }
+dialog {
+  width: min(510px,calc(100% - 24px));
+  max-height: 90dvh;
+  overflow-y: auto;
+  padding: 27px;
+  border: 1px solid #d5e2ff2a;
+  border-radius: 27px;
+  background: #151e33;
+  color: var(--text);
+  box-shadow: 0 30px 100px #00000066;
+}
+dialog::backdrop { background: #030917b8 }
+dialog h2 { margin-bottom: 23px }
+.dialog-head { display: flex; align-items: start; justify-content: space-between; gap: 10px }
+.dialog-head h2 { margin-top: 4px }
 
-    .heatmap { display: grid; grid-template-columns: repeat(14, 1fr); gap: 6px; margin-top: 18px; }
-    .heat-cell { aspect-ratio: 1; border-radius: 6px; background: #edf0e8; }
-    .heat-cell[data-level="1"] { background: #d6e4c6; }
-    .heat-cell[data-level="2"] { background: #abc892; }
-    .heat-cell[data-level="3"] { background: #78a46a; }
-    .heat-cell[data-level="4"] { background: #457650; }
+#toast {
+  position: fixed;
+  z-index: 20;
+  top: max(18px,env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100% - 30px);
+  padding: 13px 20px;
+  border-radius: 17px;
+  border: 1px solid #c5e9ff3a;
+  color: #eef7ff;
+  background: #1c2e48;
+  box-shadow: 0 12px 45px #00000055;
+  font-size: 14px;
+}
 
-    .journal-list { display: grid; gap: 13px; margin-top: 17px; }
-    .entry-note { white-space: pre-wrap; overflow-wrap: anywhere; margin: 14px 0 0; }
-    .entry-meta { font-size: 13px; color: var(--muted); margin-top: 5px; }
-    .entry-actions { display: flex; justify-content: end; gap: 4px; margin-top: 12px; }
-
-    label { display: block; font-size: 14px; color: var(--muted); margin-bottom: 15px; }
-    input, select, textarea {
-      display: block;
-      width: 100%;
-      min-width: 0;
-      margin-top: 6px;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: #fffefb;
-      color: var(--ink);
-      font-size: 16px;
-    }
-    textarea { resize: vertical; min-height: 115px; }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
-
-    dialog {
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      background: var(--paper);
-      color: var(--ink);
-      padding: 25px;
-      width: min(520px, calc(100% - 26px));
-      max-height: 90dvh;
-      overflow-y: auto;
-      box-shadow: 0 25px 100px #243c3233;
-    }
-    dialog::backdrop { background: #21362a60; backdrop-filter: blur(4px); }
-    dialog h2 { margin-bottom: 22px; }
-
-    footer { margin-top: 28px; font-size: 12px; color: var(--muted); text-align: center; }
-    .backup-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
-
-    #toast {
-      position: fixed;
-      left: 50%;
-      bottom: calc(22px + env(safe-area-inset-bottom));
-      transform: translateX(-50%);
-      z-index: 10;
-      width: max-content;
-      max-width: calc(100% - 32px);
-      background: var(--ink);
-      color: white;
-      padding: 13px 19px;
-      border-radius: 15px;
-      box-shadow: var(--shadow);
-      font-size: 14px;
-    }
-
-    @media (max-width: 600px) {
-      .app { padding: 22px 14px 45px; }
-      header { align-items: start; }
-      header > button { font-size: 14px; padding: 11px 13px; }
-      .grid { grid-template-columns: 1fr; }
-      .card { padding: 19px; }
-      .garden { padding-bottom: 0; }
-      .stats { gap: 7px; }
-      .stat { padding: 13px 10px; }
-      .stat strong { font-size: 24px; }
-      .stat span { font-size: 11px; }
-      nav { gap: 2px; }
-      nav button { padding: 10px 7px; font-size: 13px; }
-      .garden-top { align-items: start; }
-      .chart { gap: 4px; }
-      .heatmap { gap: 4px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * { animation: none !important; }
-    }
-  </style>
+.saved .garden { animation: glow .85s ease }
+@keyframes glow {
+  50% { box-shadow: 0 0 45px #9bcfff28, inset 0 0 35px #dfb1ff0b }
+}
+@media(max-width:600px) {
+  .app { padding-left: 16px; padding-right: 16px }
+  header { margin-bottom: 23px }
+  .garden { padding: 21px 19px 19px }
+  .garden-head { gap: 8px }
+  .garden-head h2 { font-size: 19px }
+  .scene { min-height: 220px }
+  .habits { grid-template-columns: 1fr }
+  .habit { padding: 20px }
+  .garden-bottom { align-items: start }
+  .garden-bottom p { max-width: 190px }
+  .stat { padding: 15px 10px }
+  .stat strong { font-size: 24px }
+  .stat span { font-size: 11px }
+  .stats-grid { gap: 8px }
+  .chart { gap: 5px }
+  .heatmap { gap: 4px }
+  .chart-card { padding: 20px 16px }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after { animation: none !important; transition: none !important }
+}
+@media(prefers-reduced-transparency:reduce) {
+  .glass { background: #172138; backdrop-filter: none; -webkit-backdrop-filter: none }
+}
+</style>
 </head>
 
 <body>
-  <main class="app">
-    <header>
-      <div>
-        <div class="eyebrow">Маленькие шаги каждый день</div>
-        <h1>Тихий сад</h1>
-        <p class="muted" id="todayLabel"></p>
-      </div>
-      <button id="addHabit">+ Привычка</button>
-    </header>
-
-    <nav aria-label="Разделы">
-      <button data-tab="today" class="active" aria-current="page">Сегодня</button>
-      <button data-tab="journal">Дневник</button>
-      <button data-tab="stats">Прогресс</button>
-      <button data-tab="data">Данные</button>
-    </nav>
-
-    <section id="view-today">
-      <div class="card garden">
-        <div class="row garden-top">
-          <div>
-            <h2>Здесь растёт ваша забота</h2>
-            <p class="muted">Можно пропустить день. Всегда можно вернуться.</p>
-          </div>
-          <span class="badge" id="levelBadge"></span>
-        </div>
-        <div class="plants" id="plants"></div>
-      </div>
-
-      <div class="section-head">
-        <h2 style="margin:0">Ваши привычки</h2>
-        <span class="muted" id="todayProgress"></span>
-      </div>
-      <div class="grid" id="habitCards"></div>
-    </section>
-
-    <section id="view-journal" hidden>
-      <div class="section-head">
-        <div>
-          <h2>Дневник практики</h2>
-          <p class="muted">Не оценка. Просто место для наблюдений.</p>
-        </div>
-      </div>
-      <label>
-        Привычка
-        <select id="journalFilter"></select>
-      </label>
-      <div class="journal-list" id="journalList"></div>
-    </section>
-
-    <section id="view-stats" hidden>
-      <div class="section-head">
-        <div>
-          <h2>Прогресс без спешки</h2>
-          <p class="muted">Каждая практика остаётся частью вашего пути.</p>
-        </div>
-      </div>
-
-      <label>
-        Привычка
-        <select id="statsFilter"></select>
-      </label>
-
-      <div class="stats" id="statNumbers"></div>
-
-      <div class="card">
-        <h3 id="chartTitle"></h3>
-        <p class="muted" style="font-size:13px">Последние 14 дней</p>
-        <div class="chart" id="chart"></div>
-        <p class="muted" style="font-size:12px">Нажмите на столбец, чтобы увидеть значение.</p>
-      </div>
-
-      <div class="card" style="margin-top:16px">
-        <h3>Календарь возвращений</h3>
-        <p class="muted" style="font-size:13px">
-          Последние 56 дней, слева направо. Насыщенность — число записей за день.
-        </p>
-        <div class="heatmap" id="heatmap"></div>
-      </div>
-    </section>
-
-    <section id="view-data" hidden>
-      <div class="card">
-        <h2>Ваши данные — у вас</h2>
-        <p>
-          Привычки и заметки хранятся только в этом браузере.
-          Приложение не отправляет их на сервер.
-        </p>
-        <p class="muted">
-          Очистка данных сайта, потеря устройства или удаление браузерного
-          хранилища могут удалить дневник. Регулярно сохраняйте резервную копию.
-        </p>
-        <div class="backup-actions">
-          <button id="exportData">Скачать копию JSON</button>
-          <button id="importData" class="secondary">Восстановить из файла</button>
-        </div>
-        <input id="importFile" type="file" accept=".json,application/json" hidden>
-        <p class="muted" style="font-size:13px">
-          Резервная копия содержит заметки в открытом виде.
-          Храните её в безопасном месте. Восстановление заменяет текущие данные.
-        </p>
-      </div>
-
-      <div class="card" style="margin-top:16px">
-        <h3>Как растёт сад</h3>
-        <p class="muted">
-          У каждой привычки своё растение. Его развитие зависит от числа
-          разных дней, в которые есть хотя бы одна запись.
-        </p>
-        <p>🌱 0–2 дня → 🌿 3–6 → 🪴 7–13 → 🌸 14–29 → 🌳 30+</p>
-        <p class="muted">
-          Один день одной привычки даёт 10 XP. Новый уровень — каждые 100 XP.
-          За пропуски ничего не отнимается. Удаление записей пересчитывает прогресс.
-        </p>
-      </div>
-    </section>
-
-    <footer>
-      Тихий сад · без гонки и наказаний · не забудьте резервную копию
-    </footer>
-  </main>
-
-  <dialog id="habitDialog" aria-labelledby="habitDialogTitle">
-    <form id="habitForm">
-      <h2 id="habitDialogTitle">Посадим новую привычку</h2>
-
-      <label>
-        Название
-        <input id="habitName" maxlength="80" required placeholder="Например, медитация">
-      </label>
-
-      <div class="form-grid">
-        <label>
-          Символ
-          <select id="habitIcon">
-            <option>🧘</option>
-            <option>📚</option>
-            <option>🚶</option>
-            <option>💧</option>
-            <option>🌙</option>
-            <option>✍️</option>
-            <option>🌿</option>
-            <option>🏃</option>
-          </select>
-        </label>
-        <label>
-          Тип
-          <select id="habitType">
-            <option value="duration">Минуты</option>
-            <option value="boolean">Выполнено</option>
-            <option value="number">Количество</option>
-          </select>
-        </label>
-      </div>
-
-      <div class="form-grid">
-        <label id="targetField">
-          Цель на день
-          <input id="habitTarget" type="number" value="10" min="0.1" max="1000000" step="any">
-        </label>
-        <label id="unitField" hidden>
-          Единица
-          <input id="habitUnit" maxlength="24" placeholder="страниц, стаканов…">
-        </label>
-      </div>
-
-      <label>
-        Подсказка для заметки
-        <input id="habitPrompt" maxlength="160" placeholder="Что я заметил во время практики?">
-      </label>
-
-      <div class="actions">
-        <button type="button" class="ghost" data-close="habitDialog">Отмена</button>
-        <button type="submit">Посадить 🌱</button>
-      </div>
-    </form>
-  </dialog>
-
-  <dialog id="entryDialog" aria-labelledby="entryTitle">
-    <form id="entryForm">
-      <h2 id="entryTitle">Новая запись</h2>
-
-      <label>
-        Дата практики
-        <input id="entryDate" type="date" required>
-      </label>
-
-      <label id="valueField">
-        <span id="valueLabel">Продолжительность, мин</span>
-        <input id="entryValue" type="number" min="0.1" max="1000000" step="any">
-      </label>
-
-      <label>
-        Заметка — необязательно
-        <textarea id="entryNote" maxlength="10000" placeholder="Как прошла практика?"></textarea>
-      </label>
-
-      <p class="muted" style="font-size:13px">
-        Даже короткая практика считается. Заметку можно оставить пустой.
-      </p>
-
-      <div class="actions">
-        <button type="button" class="ghost" data-close="entryDialog">Отмена</button>
-        <button type="submit">Сохранить 🌿</button>
-      </div>
-    </form>
-  </dialog>
-
-  <div id="toast" role="status" aria-live="polite" hidden></div>
-
-  <script>
-    "use strict";
-
-    const $ = (selector) => document.querySelector(selector);
-
-    const escapeHTML = (value) => String(value).replace(/[&<>"']/g, (char) => ({
-      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-    })[char]);
-
-    const numberFormat = new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 1 });
-    const fmt = (value) => numberFormat.format(value);
-    const uid = () => crypto.randomUUID();
-
-    function dayKey(date = new Date()) {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      return `${year}-${month}-${day}`;
-    }
-
-    function recentDays(count) {
-      return Array.from({ length: count }, (_, index) => {
-        const date = new Date();
-        date.setHours(12, 0, 0, 0);
-        date.setDate(date.getDate() - (count - 1 - index));
-        return dayKey(date);
-      });
-    }
-
-    function dateLabel(key) {
-      return new Date(key + "T12:00:00").toLocaleDateString("ru-RU", {
-        day: "numeric", month: "long", year: "numeric"
-      });
-    }
-
-    function validDate(key) {
-      if (typeof key !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(key)) return false;
-      const parsed = new Date(key + "T12:00:00");
-      return !Number.isNaN(parsed.getTime()) && dayKey(parsed) === key;
-    }
-
-    let toastTimeout;
-    function toast(message) {
-      $("#toast").textContent = message;
-      $("#toast").hidden = false;
-      clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => { $("#toast").hidden = true; }, 3800);
-    }
-
-    // Все изменения сначала записываем в IndexedDB, затем обновляем интерфейс.
-    let db;
-    let habits = [];
-    let entries = [];
-    let activeHabitId = null;
-    let editingEntryId = null;
-    let busy = false;
-
-    function openDatabase() {
-      return new Promise((resolve, reject) => {
-        const request = indexedDB.open("quiet-garden", 1);
-
-        request.onupgradeneeded = () => {
-          const database = request.result;
-          database.createObjectStore("habits", { keyPath: "id" });
-          database.createObjectStore("entries", { keyPath: "id" });
-        };
-
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-        request.onblocked = () => toast("Закройте другие вкладки приложения и обновите страницу.");
-      });
-    }
-
-    function readStore(name) {
-      return new Promise((resolve, reject) => {
-        const transaction = db.transaction(name, "readonly");
-        const request = transaction.objectStore(name).getAll();
-        transaction.oncomplete = () => resolve(request.result);
-        transaction.onerror = () => reject(transaction.error);
-        transaction.onabort = () => reject(transaction.error || new Error("Чтение отменено"));
-      });
-    }
-
-    function writeStores(names, callback) {
-      return new Promise((resolve, reject) => {
-        const transaction = db.transaction(names, "readwrite");
-        transaction.oncomplete = resolve;
-        transaction.onerror = () => reject(transaction.error);
-        transaction.onabort = () => reject(transaction.error || new Error("Запись отменена"));
-        try {
-          callback(transaction);
-        } catch (error) {
-          transaction.abort();
-          reject(error);
-        }
-      });
-    }
-
-    async function reload() {
-      [habits, entries] = await Promise.all([
-        readStore("habits"), readStore("entries")
-      ]);
-      habits.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
-      render();
-    }
-
-    async function safely(action) {
-      if (busy) return;
-      if (!db) {
-        toast("Хранилище пока недоступно.");
-        return;
-      }
-      busy = true;
-      try {
-        await action();
-      } catch (error) {
-        console.error(error);
-        toast("Не удалось сохранить изменения. Проверьте доступность хранилища.");
-      } finally {
-        busy = false;
-      }
-    }
-
-    const habitEntries = (id) => entries.filter((entry) => entry.habitId === id);
-    const practiceDays = (list) => new Set(list.map((entry) => entry.date)).size;
-    const unitFor = (habit) => habit.type === "duration" ? "мин" : (habit.unit || "раз");
-
-    function dayValue(habit, date) {
-      const list = habitEntries(habit.id).filter((entry) => entry.date === date);
-      return habit.type === "boolean"
-        ? Number(list.length > 0)
-        : list.reduce((sum, entry) => sum + entry.value, 0);
-    }
-
-    function plantStage(days) {
-      if (days >= 30) return "🌳";
-      if (days >= 14) return "🌸";
-      if (days >= 7) return "🪴";
-      if (days >= 3) return "🌿";
-      return "🌱";
-    }
-
-    function updateFilters() {
-      for (const id of ["journalFilter", "statsFilter"]) {
-        const select = $("#" + id);
-        const previous = select.value;
-        select.innerHTML = '<option value="">Все привычки</option>' +
-          habits.map((habit) =>
-            `<option value="${escapeHTML(habit.id)}">${escapeHTML(habit.icon)} ${escapeHTML(habit.name)}</option>`
-          ).join("");
-        select.value = habits.some((habit) => habit.id === previous) ? previous : "";
-      }
-    }
-
-    function render() {
-      $("#todayLabel").textContent = new Date().toLocaleDateString("ru-RU", {
-        weekday: "long", day: "numeric", month: "long"
-      });
-
-      updateFilters();
-      renderToday();
-      renderJournal();
-      renderStats();
-    }
-
-    function renderToday() {
-      const today = dayKey();
-      const totalDays = habits.reduce((sum, habit) => sum + practiceDays(habitEntries(habit.id)), 0);
-      const xp = totalDays * 10;
-
-      $("#levelBadge").textContent = `Уровень ${Math.floor(xp / 100) + 1} · ${xp} XP`;
-
-      $("#plants").innerHTML = habits.length
-        ? habits.map((habit) => {
-            const days = practiceDays(habitEntries(habit.id));
-            return `<div class="plant">
-              <span class="plant-art" aria-hidden="true">${plantStage(days)}</span>
-              <span class="plant-name">${escapeHTML(habit.name)}</span>
-              <span class="plant-days">Дней практики: ${days}</span>
-            </div>`;
-          }).join("")
-        : '<div class="empty" style="width:100%">🌱 Здесь появится ваше первое растение.</div>';
-
-      const completed = habits.filter((habit) => dayValue(habit, today) >= habit.target).length;
-      $("#todayProgress").textContent = habits.length
-        ? `${completed} из ${habits.length} целей`
-        : "";
-
-      $("#habitCards").innerHTML = habits.length
-        ? habits.map((habit) => {
-            const value = dayValue(habit, today);
-            const done = value >= habit.target;
-            const percent = Math.min(100, Math.max(0, value / habit.target * 100));
-
-            const display = habit.type === "boolean"
-              ? (done ? "Выполнено ✓" : "Можно начать")
-              : `${fmt(value)} <span>/ ${fmt(habit.target)} ${escapeHTML(unitFor(habit))}</span>`;
-
-            return `<article class="card">
-              <div class="card-head">
-                <div class="habit-title">
-                  <span class="habit-icon" aria-hidden="true">${escapeHTML(habit.icon)}</span>
-                  <div>
-                    <h3>${escapeHTML(habit.name)}</h3>
-                    <p class="muted">Ежедневная практика</p>
-                  </div>
-                </div>
-                <button class="ghost small" data-delete-habit="${escapeHTML(habit.id)}"
-                  aria-label="Удалить привычку ${escapeHTML(habit.name)}">×</button>
-              </div>
-              <div class="habit-value">${display}</div>
-              <div class="track" aria-hidden="true">
-                <div class="fill" style="width:${percent}%"></div>
-              </div>
-              <div class="habit-footer">
-                <span class="muted" style="font-size:13px">
-                  ${done ? "На сегодня достаточно 🌿" : "Любой маленький шаг"}
-                </span>
-                <button class="${done ? "secondary" : ""}" data-add-entry="${escapeHTML(habit.id)}">
-                  ${done ? "+ Запись" : "Отметить"}
-                </button>
-              </div>
-            </article>`;
-          }).join("")
-        : `<div class="card empty" style="grid-column:1/-1">
-            <h3>Начнём с одной привычки?</h3>
-            <p>Нажмите «+ Привычка». Например, медитация — 10 минут в день.</p>
-          </div>`;
-    }
-
-    function renderJournal() {
-      const filter = $("#journalFilter").value;
-      const list = entries
-        .filter((entry) => !filter || entry.habitId === filter)
-        .slice()
-        .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt));
-
-      $("#journalList").innerHTML = list.length
-        ? list.map((entry) => {
-            const habit = habits.find((item) => item.id === entry.habitId);
-            if (!habit) return "";
-            const value = habit.type === "boolean"
-              ? "Выполнено"
-              : `${fmt(entry.value)} ${escapeHTML(unitFor(habit))}`;
-
-            return `<article class="card">
-              <h3>${escapeHTML(habit.icon)} ${escapeHTML(habit.name)}</h3>
-              <div class="entry-meta">${escapeHTML(dateLabel(entry.date))} · ${value}</div>
-              ${entry.note
-                ? `<p class="entry-note">${escapeHTML(entry.note)}</p>`
-                : '<p class="muted" style="margin:12px 0 0;font-size:14px">Практика без заметки — тоже практика.</p>'}
-              <div class="entry-actions">
-                <button class="ghost small" data-edit-entry="${escapeHTML(entry.id)}">Изменить</button>
-                <button class="ghost small" data-delete-entry="${escapeHTML(entry.id)}">Удалить</button>
-              </div>
-            </article>`;
-          }).join("")
-        : '<div class="card empty">Записей пока нет. Здесь будут ваши наблюдения.</div>';
-    }
-
-    function renderStats() {
-      const filter = $("#statsFilter").value;
-      const habit = habits.find((item) => item.id === filter);
-      const list = entries.filter((entry) => !filter || entry.habitId === filter);
-
-      const days14 = recentDays(14);
-      const last14 = list.filter((entry) => days14.includes(entry.date));
-      const activeDays = practiceDays(last14);
-
-      const minutes = list.reduce((sum, entry) => {
-        const related = habits.find((item) => item.id === entry.habitId);
-        return sum + (related?.type === "duration" ? entry.value : 0);
-      }, 0);
-
-      $("#statNumbers").innerHTML = `
-        <div class="stat"><strong>${list.length}</strong><span>записей за всё время</span></div>
-        <div class="stat"><strong>${activeDays}/14</strong><span>дней с практикой</span></div>
-        <div class="stat"><strong>${fmt(minutes)}</strong><span>минут за всё время</span></div>`;
-
-      // Разные единицы не складываем:
-      // для всех привычек показываем число записей,
-      // для выбранной числовой — сумму её значений.
-      const numeric = habit && habit.type !== "boolean";
-      const chartUnit = numeric ? unitFor(habit) : "записей";
-
-      $("#chartTitle").textContent = numeric
-        ? `${habit.name}: ${chartUnit} по дням`
-        : "Количество записей по дням";
-
-      const values = days14.map((date) => {
-        const daily = list.filter((entry) => entry.date === date);
-        return numeric ? daily.reduce((sum, entry) => sum + entry.value, 0) : daily.length;
-      });
-
-      const max = Math.max(1, ...values);
-
-      $("#chart").innerHTML = days14.map((date, index) => {
-        const description = `${dateLabel(date)}: ${fmt(values[index])} ${chartUnit}`;
-        return `<div class="bar-col">
-          <div class="bar-slot">
-            <div class="bar" style="height:${Math.max(2, values[index] / max * 100)}%;
-              opacity:${values[index] ? 1 : .25}"
-              role="img" tabindex="0"
-              aria-label="${escapeHTML(description)}"
-              title="${escapeHTML(description)}"
-              data-tip="${escapeHTML(description)}"></div>
-          </div>
-          <small>${Number(date.slice(-2))}</small>
-        </div>`;
-      }).join("");
-
-      $("#heatmap").innerHTML = recentDays(56).map((date) => {
-        const count = list.filter((entry) => entry.date === date).length;
-        const description = `${dateLabel(date)}: записей — ${count}`;
-        return `<div class="heat-cell" data-level="${Math.min(4, count)}"
-          role="img" tabindex="0"
-          aria-label="${escapeHTML(description)}"
-          title="${escapeHTML(description)}"
-          data-tip="${escapeHTML(description)}"></div>`;
-      }).join("");
-    }
-
-    function syncHabitFields() {
-      const type = $("#habitType").value;
-      $("#targetField").hidden = type === "boolean";
-      $("#habitTarget").required = type !== "boolean";
-      $("#unitField").hidden = type !== "number";
-    }
-
-    $("#addHabit").onclick = () => {
-      $("#habitForm").reset();
-      syncHabitFields();
-      $("#habitDialog").showModal();
-      $("#habitName").focus();
-    };
-
-    $("#habitType").onchange = syncHabitFields;
-
-    $("#habitForm").onsubmit = (event) => {
-      event.preventDefault();
-
-      const name = $("#habitName").value.trim();
-      if (!name) return toast("Добавьте название привычки.");
-
-      const type = $("#habitType").value;
-      const target = type === "boolean" ? 1 : Number($("#habitTarget").value);
-      if (!Number.isFinite(target) || target <= 0 || target > 1000000) {
-        return toast("Укажите положительную цель.");
-      }
-
-      const habit = {
-        id: uid(),
-        name,
-        icon: $("#habitIcon").value,
-        type,
-        target,
-        unit: type === "number" ? $("#habitUnit").value.trim() || "раз" : "",
-        prompt: $("#habitPrompt").value.trim(),
-        createdAt: new Date().toISOString()
-      };
-
-      safely(async () => {
-        await writeStores(["habits"], (tx) => tx.objectStore("habits").put(habit));
-        $("#habitDialog").close();
-        await reload();
-        toast("В саду появилось новое растение 🌱");
-      });
-    };
-
-    function openEntry(habitId, entryId = null) {
-      const habit = habits.find((item) => item.id === habitId);
-      if (!habit) return;
-
-      const entry = entryId ? entries.find((item) => item.id === entryId) : null;
-      activeHabitId = habitId;
-      editingEntryId = entryId;
-
-      $("#entryForm").reset();
-      $("#entryTitle").textContent = `${habit.icon} ${habit.name}`;
-      $("#entryDate").max = dayKey();
-      $("#entryDate").value = entry?.date || dayKey();
-      $("#entryValue").value = entry?.value ?? habit.target;
-      $("#entryValue").required = habit.type !== "boolean";
-      $("#valueField").hidden = habit.type === "boolean";
-      $("#valueLabel").textContent = habit.type === "duration"
-        ? "Продолжительность, мин"
-        : `Количество, ${unitFor(habit)}`;
-      $("#entryNote").value = entry?.note || "";
-      $("#entryNote").placeholder = habit.prompt || "Как прошла практика? Что вы заметили?";
-      $("#entryDialog").showModal();
-    }
-
-    $("#entryForm").onsubmit = (event) => {
-      event.preventDefault();
-
-      const habit = habits.find((item) => item.id === activeHabitId);
-      if (!habit) return toast("Привычка не найдена.");
-
-      const date = $("#entryDate").value;
-      const value = habit.type === "boolean" ? 1 : Number($("#entryValue").value);
-
-      if (!validDate(date) || date > dayKey()) {
-        return toast("Укажите сегодняшнюю или прошедшую дату.");
-      }
-      if (!Number.isFinite(value) || value <= 0 || value > 1000000) {
-        return toast("Укажите положительное значение.");
-      }
-
-      const old = entries.find((item) => item.id === editingEntryId);
-      const entry = {
-        id: old?.id || uid(),
-        habitId: habit.id,
-        date,
-        value,
-        note: $("#entryNote").value.trim(),
-        createdAt: old?.createdAt || new Date().toISOString()
-      };
-
-      safely(async () => {
-        await writeStores(["entries"], (tx) => tx.objectStore("entries").put(entry));
-        $("#entryDialog").close();
-        await reload();
-        toast(old ? "Запись обновлена" : "Ещё один маленький шаг 🌿");
-      });
-    };
-
-    document.addEventListener("click", (event) => {
-      const target = event.target.closest("button, [data-tip]");
-      if (!target) return;
-
-      if (target.dataset.close) $("#" + target.dataset.close).close();
-
-      if (target.dataset.tab) {
-        document.querySelectorAll("nav button").forEach((button) => {
-          const active = button === target;
-          button.classList.toggle("active", active);
-          if (active) button.setAttribute("aria-current", "page");
-          else button.removeAttribute("aria-current");
-        });
-        document.querySelectorAll('section[id^="view-"]').forEach((section) => {
-          section.hidden = section.id !== "view-" + target.dataset.tab;
-        });
-      }
-
-      if (target.dataset.addEntry) openEntry(target.dataset.addEntry);
-
-      if (target.dataset.editEntry) {
-        const entry = entries.find((item) => item.id === target.dataset.editEntry);
-        if (entry) openEntry(entry.habitId, entry.id);
-      }
-
-      if (target.dataset.deleteEntry && confirm("Удалить эту запись?")) {
-        safely(async () => {
-          await writeStores(["entries"], (tx) =>
-            tx.objectStore("entries").delete(target.dataset.deleteEntry));
-          await reload();
-          toast("Запись удалена");
-        });
-      }
-
-      if (target.dataset.deleteHabit) {
-        const habit = habits.find((item) => item.id === target.dataset.deleteHabit);
-        if (!habit) return;
-        if (!confirm(`Удалить «${habit.name}» и все связанные записи? Это нельзя отменить.`)) return;
-
-        safely(async () => {
-          const related = habitEntries(habit.id);
-          await writeStores(["habits", "entries"], (tx) => {
-            tx.objectStore("habits").delete(habit.id);
-            related.forEach((entry) => tx.objectStore("entries").delete(entry.id));
-          });
-          await reload();
-          toast("Привычка удалена");
-        });
-      }
-
-      if (target.dataset.tip) toast(target.dataset.tip);
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (event.target.dataset?.tip && (event.key === "Enter" || event.key === " ")) {
-        event.preventDefault();
-        toast(event.target.dataset.tip);
-      }
-    });
-
-    $("#journalFilter").onchange = renderJournal;
-    $("#statsFilter").onchange = renderStats;
-
-    $("#exportData").onclick = () => safely(async () => {
-      const backupHabits = await readStore("habits");
-      const backupEntries = await readStore("entries");
-
-      const backup = {
-        app: "quiet-garden",
-        version: 1,
-        exportedAt: new Date().toISOString(),
-        habits: backupHabits,
-        entries: backupEntries
-      };
-
-      const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `quiet-garden-${dayKey()}.json`;
-      document.body.append(link);
-      link.click();
-      link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 60000);
-      toast("Сохраните файл в надёжном месте");
-    });
-
-    $("#importData").onclick = () => $("#importFile").click();
-
-    // Проверяем резервную копию ДО изменения текущей базы.
-    function validateBackup(data) {
-      const fail = () => { throw new Error("Файл не похож на корректную резервную копию Тихого сада."); };
-      const text = (value, max) => typeof value === "string" && value.length <= max;
-      const idOK = (value) => typeof value === "string" && /^[a-zA-Z0-9_-]{1,100}$/.test(value);
-      const timestampOK = (value) => text(value, 40) && Number.isFinite(Date.parse(value));
-
-      if (!data || data.app !== "quiet-garden" || data.version !== 1) fail();
-      if (!Array.isArray(data.habits) || !Array.isArray(data.entries)) fail();
-      if (data.habits.length > 500 || data.entries.length > 100000) fail();
-
-      const ids = new Set();
-      const habitMap = new Map();
-
-      const cleanHabits = data.habits.map((habit) => {
-        if (!habit || !idOK(habit.id) || ids.has(habit.id)) fail();
-        if (!text(habit.name, 80) || !habit.name.trim()) fail();
-        if (!text(habit.icon, 16)) fail();
-        if (!["duration", "boolean", "number"].includes(habit.type)) fail();
-        if (!Number.isFinite(habit.target) || habit.target <= 0 || habit.target > 1000000) fail();
-        if (habit.type === "boolean" && habit.target !== 1) fail();
-        if (!text(habit.unit, 24) || !text(habit.prompt, 160)) fail();
-        if (!timestampOK(habit.createdAt)) fail();
-
-        ids.add(habit.id);
-        habitMap.set(habit.id, habit);
-
-        return {
-          id: habit.id, name: habit.name.trim(), icon: habit.icon,
-          type: habit.type, target: habit.target, unit: habit.unit,
-          prompt: habit.prompt, createdAt: habit.createdAt
-        };
-      });
-
-      const entryIds = new Set();
-      const cleanEntries = data.entries.map((entry) => {
-        if (!entry || !idOK(entry.id) || entryIds.has(entry.id)) fail();
-        if (!habitMap.has(entry.habitId)) fail();
-        if (!validDate(entry.date) || entry.date > dayKey()) fail();
-        if (!Number.isFinite(entry.value) || entry.value <= 0 || entry.value > 1000000) fail();
-        if (habitMap.get(entry.habitId).type === "boolean" && entry.value !== 1) fail();
-        if (!text(entry.note, 10000) || !timestampOK(entry.createdAt)) fail();
-
-        entryIds.add(entry.id);
-        return {
-          id: entry.id, habitId: entry.habitId, date: entry.date,
-          value: entry.value, note: entry.note, createdAt: entry.createdAt
-        };
-      });
-
-      return { habits: cleanHabits, entries: cleanEntries };
-    }
-
-    $("#importFile").onchange = async (event) => {
-      const file = event.target.files[0];
-      event.target.value = "";
-      if (!file) return;
-      if (file.size > 20 * 1024 * 1024) return toast("Файл слишком большой. Максимум — 20 МБ.");
-
-      let backup;
-      try {
-        backup = validateBackup(JSON.parse(await file.text()));
-      } catch (error) {
-        toast(error instanceof SyntaxError ? "Не удалось прочитать JSON-файл." : error.message);
-        return;
-      }
-
-      const message = `Заменить текущие данные?\n\nВ копии: привычек — ${backup.habits.length}, записей — ${backup.entries.length}.\n\nСначала рекомендуется скачать текущую копию.`;
-      if (!confirm(message)) return;
-
-      safely(async () => {
-        // Одна транзакция: либо восстановится всё, либо останется прежняя база.
-        await writeStores(["habits", "entries"], (tx) => {
-          const habitStore = tx.objectStore("habits");
-          const entryStore = tx.objectStore("entries");
-          habitStore.clear();
-          entryStore.clear();
-          backup.habits.forEach((habit) => habitStore.put(habit));
-          backup.entries.forEach((entry) => entryStore.put(entry));
-        });
-        await reload();
-        toast("Сад восстановлен 🌳");
-      });
-    };
-
-    async function init() {
-      try {
-        db = await openDatabase();
-        db.onversionchange = () => {
-          db.close();
-          db = null;
-          toast("Обновите страницу, чтобы продолжить.");
-        };
-        await reload();
-      } catch (error) {
-        console.error(error);
-        $("#habitCards").innerHTML = `<div class="card empty" style="grid-column:1/-1">
-          Не удалось открыть локальное хранилище.
-          Откройте приложение в обычном режиме Safari и проверьте настройки браузера.
-        </div>`;
-        toast("Локальное хранилище недоступно.");
-      }
-    }
-
-    // Обновляем дату после возврата в приложение и данные после другой вкладки.
-    document.addEventListener("visibilitychange", () => {
-      if (!document.hidden && db) safely(reload);
-    });
-
-    // Если приложение оставлено открытым после полуночи.
-    let displayedDay = dayKey();
-    setInterval(() => {
-      if (dayKey() !== displayedDay && db) {
-        displayedDay = dayKey();
-        render();
-      }
-    }, 30000);
-
-    init();
-  </script>
-</body>
-</html>
+<main class="app">
+  <header>
+    <div>
