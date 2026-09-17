@@ -5,355 +5,886 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#090e20">
 <meta name="color-scheme" content="dark">
-<title>Тихий сад — Ночное сияние</title>
-
+<title>Тихий сад</title>
 <style>
-:root {
-  --bg: #090e20;
-  --text: #f4f6ff;
-  --muted: #b8c2da;
-  --cyan: #82dcff;
-  --pink: #f4aedf;
-  --line: rgba(225,235,255,.14);
-  --glass: rgba(22,30,55,.78);
-  --radius: 26px;
+:root{
+  --bg:#090e20;--text:#f4f6ff;--muted:#bac5df;
+  --cyan:#92e0ff;--pink:#efb1df;--line:#dbe6ff24
 }
-
-* { box-sizing: border-box }
-[hidden] { display: none !important }
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  -webkit-font-smoothing: antialiased;
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  margin:0;color:var(--text);background:var(--bg);
+  font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
 }
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
   background:
-    radial-gradient(ellipse at 5% 5%, #2259ab66, transparent 48%),
-    radial-gradient(ellipse at 95% 25%, #973c8550, transparent 43%),
-    radial-gradient(ellipse at 45% 85%, #40378b44, transparent 45%),
-    #090e20;
+    radial-gradient(ellipse at 0% 5%,#235cb568,transparent 48%),
+    radial-gradient(ellipse at 100% 30%,#a542874d,transparent 48%),
+    radial-gradient(ellipse at 45% 95%,#6251c233,transparent 50%),#090e20
 }
-
-button, input, select, textarea { font: inherit }
-button { cursor: pointer }
-button, a { -webkit-tap-highlight-color: transparent }
-button:disabled { opacity: .5; cursor: wait }
-
-button {
-  min-height: 44px;
-  padding: 11px 17px;
-  border-radius: 15px;
-  border: 1px solid transparent;
-  background: linear-gradient(120deg, #a3e7ff, #c8c3ff);
-  color: #11182e;
-  font-weight: 650;
-  transition: transform .18s, background .18s;
+button,input,textarea,select{font:inherit}
+button{
+  cursor:pointer;min-height:44px;padding:11px 16px;border-radius:14px;
+  border:1px solid transparent;color:#111b30;font-weight:650;
+  background:linear-gradient(120deg,#a2e6ff,#d4bcf3)
 }
-button:active { transform: scale(.97) }
-button.secondary {
-  color: var(--text);
-  border-color: var(--line);
-  background: #ffffff09;
+button:disabled{opacity:.5;cursor:wait}
+button.secondary{color:var(--text);background:#ffffff09;border-color:var(--line)}
+button.ghost{color:var(--muted);background:transparent}
+button.small{padding:8px 11px;font-size:13px}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+h1,h2,h3,p{margin:0}
+h1{font-size:clamp(32px,7vw,43px);letter-spacing:-.055em}
+h2{font-size:23px;letter-spacing:-.035em}
+h3{font-size:17px}
+.muted{color:var(--muted)}
+.caption{font-size:13px;color:var(--muted)}
+.eyebrow{font-size:11px;letter-spacing:.13em;color:var(--cyan);text-transform:uppercase}
+.app{max-width:960px;margin:auto;padding:30px 20px 140px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+header{margin-bottom:26px}
+header p{margin-top:5px}
+.glass{
+  background:#172138ed;border:1px solid var(--line);border-radius:25px;
+  box-shadow:0 18px 55px #00000026,inset 0 1px 0 #ffffff08
 }
-button.ghost {
-  color: var(--muted);
-  background: transparent;
+@supports (backdrop-filter:blur(1px)){
+  .glass{background:#172138b8;backdrop-filter:blur(18px)}
 }
-button.danger { background: #ff8daf16; color: #ffc1cf; border-color: #ff8daf30 }
-button.small { padding: 8px 12px; font-size: 13px }
-.icon-btn { width: 44px; padding: 0; display: grid; place-items: center }
-
-:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px }
-
-h1,h2,h3,p { margin: 0 }
-h1 { font-size: clamp(30px,6vw,42px); letter-spacing: -.055em; font-weight: 700 }
-h2 { font-size: 23px; letter-spacing: -.035em; font-weight: 650 }
-h3 { font-size: 17px; letter-spacing: -.015em }
-.muted { color: var(--muted) }
-.caption { font-size: 13px; color: var(--muted) }
-.eyebrow { color: var(--cyan); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; font-weight: 650 }
-
-.app {
-  width: min(100%, 1000px);
-  margin: auto;
-  padding: max(28px, env(safe-area-inset-top)) 24px 135px;
+@supports (-webkit-backdrop-filter:blur(1px)){
+  .glass{-webkit-backdrop-filter:blur(18px)}
 }
-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 28px }
-header p { margin-top: 4px }
-
-.glass {
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--glass);
-  box-shadow: 0 16px 48px #00000020, inset 0 1px 0 #ffffff06;
+.garden{
+  padding:24px;overflow:hidden;
+  background:linear-gradient(130deg,#244d716b,#3426418a)
 }
-
-@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .glass {
-    background: rgba(22,30,55,.65);
-    -webkit-backdrop-filter: blur(18px);
-    backdrop-filter: blur(18px);
-  }
+.pill{
+  display:inline-block;padding:6px 11px;border:1px solid #cfddff26;
+  background:#ffffff07;border-radius:25px;font-size:12px;white-space:nowrap
 }
-
-.section-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 27px 0 16px }
-.section-head .caption { margin-top: 3px }
-
-.garden {
-  padding: 25px 27px 21px;
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(ellipse at 80% 50%, #c075ce16, transparent 55%),
-    linear-gradient(135deg, #23436670, #202037b8);
+.plants{
+  display:flex;align-items:end;gap:8px;overflow-x:auto;
+  min-height:220px;padding:20px 0
 }
-.garden-head, .garden-bottom { display: flex; align-items: center; justify-content: space-between; gap: 15px }
-.pill {
-  display: inline-flex;
-  gap: 6px;
-  align-items: center;
-  white-space: nowrap;
-  border: 1px solid #b8dfff25;
-  background: #c8e6ff0a;
-  color: #d5e6ff;
-  padding: 6px 11px;
-  border-radius: 30px;
-  font-size: 12px;
+.plant{flex:1 0 115px;text-align:center;position:relative}
+.plant svg{width:115px;height:150px}
+.plant-name{font-size:12px;max-width:150px;margin:auto;overflow-wrap:anywhere}
+.plant-days{font-size:11px;color:var(--muted)}
+.garden-foot{border-top:1px solid #ffffff10;padding-top:15px;font-size:13px;color:var(--muted)}
+.section-head{margin:25px 0 15px}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.card{padding:22px}
+.habit-title{display:flex;align-items:center;gap:11px;min-width:0}
+.habit-title h3{overflow-wrap:anywhere}
+.habit-icon{
+  display:grid;place-items:center;flex-shrink:0;width:44px;height:44px;
+  border-radius:14px;background:linear-gradient(135deg,#8cdaff22,#df9af313);
+  border:1px solid #cee5ff1a;font-size:22px
 }
-
-.scene {
-  min-height: 230px;
-  position: relative;
-  display: flex;
-  align-items: end;
-  gap: 10px;
-  overflow-x: auto;
-  padding: 22px 10px 14px;
+.value{font-size:29px;font-weight:650;margin:20px 0 10px;letter-spacing:-.04em}
+.value span{font-size:13px;font-weight:400;color:var(--muted);letter-spacing:0}
+.track{height:5px;background:#dce5ff12;border-radius:10px;overflow:hidden}
+.track div{height:100%;background:linear-gradient(90deg,#87dfff,#d6b9f1)}
+.card-foot{margin-top:17px}
+.preview{font-size:13px;color:var(--muted);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin-top:15px}
+.empty{text-align:center;padding:32px 20px;color:var(--muted);grid-column:1/-1}
+.empty h3{color:var(--text);margin-bottom:8px}
+.page-title{margin:5px 0 24px}
+.page-title h2{font-size:29px}
+.page-title p{margin-top:6px}
+label{display:block;color:var(--muted);font-size:13px;margin-bottom:16px}
+input,select,textarea{
+  display:block;width:100%;min-width:0;margin-top:7px;padding:13px;
+  border:1px solid #c9daff29;border-radius:13px;background:#0c1429;
+  color:var(--text);font-size:16px
 }
-.scene::before {
-  content: "";
-  position: absolute;
-  left: 6%;
-  right: 6%;
-  bottom: 33px;
-  height: 65px;
-  background: radial-gradient(ellipse, #86baff22, transparent 70%);
-  pointer-events: none;
+input::placeholder,textarea::placeholder{color:#99a7c3}
+textarea{min-height:125px;resize:vertical}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.actions{display:flex;flex-wrap:wrap;justify-content:end;gap:8px;margin-top:20px}
+.list{display:grid;gap:14px}
+.entry{background:#151e33ed}
+.entry-note{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.75;margin-top:16px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:15px}
+.stat{padding:17px 13px}
+.stat strong{display:block;font-size:27px;letter-spacing:-.04em}
+.stat span{font-size:12px;color:var(--muted)}
+.chart{
+  display:grid;grid-template-columns:repeat(14,minmax(0,1fr));
+  gap:7px;height:190px;margin:24px 0 12px
 }
-.plant {
-  position: relative;
-  flex: 1 0 115px;
-  text-align: center;
-  min-width: 115px;
+.column{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0}
+.bar-space{display:flex;align-items:end;flex:1;width:100%}
+.bar{
+  width:100%;min-height:4px;padding:0;border-radius:7px 7px 3px 3px;
+  background:linear-gradient(0deg,#477ca6,#98e0fa);border:1px solid #bbf0ff30
 }
-.plant svg { width: 120px; height: 150px; overflow: visible }
-.plant-name {
-  display: block;
-  max-width: 145px;
-  margin: auto;
-  font-size: 12px;
-  overflow-wrap: anywhere;
+.column:last-child .bar{background:linear-gradient(0deg,#9766b0,#f0b8e0)}
+.column small{font-size:10px;color:var(--muted)}
+.heatmap{display:grid;grid-template-columns:repeat(14,1fr);gap:5px;margin-top:18px}
+.cell{aspect-ratio:1;min-height:0;padding:0;background:#b7cfff10;border-radius:5px}
+.cell[data-level="1"]{background:#294b67}
+.cell[data-level="2"]{background:#447f9d}
+.cell[data-level="3"]{background:#6bb4d1}
+.cell[data-level="4"]{background:#a6e8fa}
+.spaced{margin-top:16px}
+.settings p{margin-top:13px}
+nav{
+  position:fixed;z-index:5;bottom:calc(15px + env(safe-area-inset-bottom));
+  left:50%;transform:translateX(-50%);display:flex;gap:5px;padding:7px;
+  width:min(420px,calc(100% - 28px));background:#111c32f2!important;border-radius:22px
 }
-.plant-days { color: var(--muted); font-size: 11px }
-.garden-bottom { padding-top: 15px; border-top: 1px solid #ffffff0b }
-.garden-bottom p { font-size: 13px; color: #ced8ed }
-.level-progress { width: 105px; flex-shrink: 0 }
-.level-progress .caption { text-align: right; margin-bottom: 6px; font-size: 11px }
-
-.track { height: 5px; overflow: hidden; background: #dce5ff10; border-radius: 20px }
-.track > div {
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #7bd4f3, #c8b5ef);
+nav button{
+  flex:1;min-width:0;background:transparent;color:var(--muted);
+  padding:8px 4px;font-size:11px;display:grid;place-items:center;gap:4px
 }
-.habits { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 15px }
-.habit { padding: 22px; }
-.habit-top { display: flex; align-items: center; gap: 12px }
-.habit-top .name { flex: 1; min-width: 0 }
-.name h3 { overflow-wrap: anywhere }
-.habit-icon {
-  width: 44px; height: 44px; flex-shrink: 0;
-  display: grid; place-items: center;
-  color: var(--cyan); border-radius: 14px;
-  background: linear-gradient(135deg,#9dddff18,#d497fa12);
-  border: 1px solid #c4deff16;
-  font-size: 21px;
+nav button.active{color:#edf8ff;background:linear-gradient(130deg,#96dfff20,#d9a8f519);border-color:#d6e8ff1a}
+nav svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+dialog{
+  width:min(510px,calc(100% - 24px));max-height:90dvh;overflow-y:auto;
+  padding:26px;border:1px solid #cfddff35;border-radius:25px;
+  background:#151f35;color:var(--text);box-shadow:0 30px 100px #0008
 }
-.habit-number { font-size: 29px; letter-spacing: -.045em; margin: 20px 0 10px; font-weight: 600 }
-.habit-number span { font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 0 }
-.habit-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 18px }
-.preview {
-  margin-top: 15px;
-  color: var(--muted);
-  font-size: 13px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+dialog::backdrop{background:#030917bb}
+dialog h2{margin-bottom:23px}
+#toast{
+  position:fixed;z-index:30;top:max(18px,env(safe-area-inset-top));
+  left:50%;transform:translateX(-50%);width:max-content;
+  max-width:calc(100% - 30px);padding:13px 18px;
+  background:#203450;color:#f2f8ff;border:1px solid #badeff45;border-radius:15px;
+  box-shadow:0 10px 40px #0005;font-size:14px
 }
-.done-label { color: #b5ead8; font-size: 12px }
-.empty { text-align: center; padding: 34px 20px; color: var(--muted) }
-.empty h3 { color: var(--text); margin-bottom: 8px }
-
-.page-title { margin: 7px 0 23px }
-.page-title h2 { font-size: 29px; margin-bottom: 7px }
-
-label { display: block; color: var(--muted); font-size: 13px; margin-bottom: 17px }
-input,textarea,select {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  margin-top: 7px;
-  border: 1px solid #c4d1f322;
-  border-radius: 14px;
-  padding: 13px;
-  background: #0c1326cc;
-  color: var(--text);
-  font-size: 16px;
+@media(max-width:600px){
+  .app{padding:25px 15px 140px}
+  .cards{grid-template-columns:1fr}
+  .garden,.card{padding:20px}
+  .garden h2{font-size:20px}
+  .stats{gap:7px}
+  .stat{padding:14px 10px}
+  .stat strong{font-size:23px}
+  .stat span{font-size:11px}
+  .chart{gap:4px}
 }
-textarea { min-height: 135px; resize: vertical }
-input::placeholder,textarea::placeholder { color: #929eb7 }
-select { color-scheme: dark }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
-
-.journal { display: grid; gap: 14px }
-.entry { padding: 23px; background: rgba(20,28,49,.92) }
-.entry-top { display: flex; align-items: center; justify-content: space-between; gap: 12px }
-.entry-note { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.75; margin-top: 19px }
-.entry-actions { display: flex; justify-content: flex-end; gap: 5px; margin-top: 13px }
-
-.stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 11px; margin-bottom: 16px }
-.stat { padding: 20px 16px }
-.stat strong { display: block; font-size: 27px; letter-spacing: -.04em; color: #e0ebff }
-.stat span { font-size: 12px; color: var(--muted) }
-.chart-card { padding: 23px; margin-bottom: 16px }
-.chart { display: grid; grid-template-columns: repeat(14,minmax(0,1fr)); gap: 8px; height: 185px; margin-top: 24px }
-.column { min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 9px }
-.bar-space { display: flex; align-items: end; width: 100%; flex: 1 }
-.bar {
-  padding: 0; min-height: 4px; width: 100%;
-  border: 1px solid #aff1ff30;
-  border-radius: 7px 7px 3px 3px;
-  background: linear-gradient(0deg,#4788b2,#9ee5fc);
-}
-.column:last-child .bar { background: linear-gradient(0deg,#9b69b5,#f2b9e0); border-color: #f8ccec40 }
-.column small { font-size: 10px; color: var(--muted) }
-.heatmap { display: grid; grid-template-columns: repeat(14,1fr); gap: 6px; margin-top: 18px }
-.cell { padding: 0; min-height: 0; aspect-ratio: 1; border-radius: 6px; background: #b1c8ff0c; border: 1px solid #b1c8ff08 }
-.cell[data-level="1"] { background: #284760 }
-.cell[data-level="2"] { background: #3c7394 }
-.cell[data-level="3"] { background: #62a9c9 }
-.cell[data-level="4"] { background: #a7e5f7 }
-
-.settings-card { padding: 25px; margin-bottom: 17px }
-.settings-card p { margin-top: 12px; color: var(--muted) }
-.actions { display: flex; flex-wrap: wrap; justify-content: end; gap: 9px; margin-top: 23px }
-.settings-card .actions { justify-content: start }
-
-.bottom-nav {
-  position: fixed;
-  z-index: 5;
-  bottom: calc(16px + env(safe-area-inset-bottom));
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 5px;
-  padding: 7px;
-  width: min(410px,calc(100% - 32px));
-  border-radius: 23px;
-  background: #101a30ed;
-  box-shadow: 0 10px 50px #00000055;
-}
-.bottom-nav button {
-  flex: 1; min-width: 0;
-  color: var(--muted);
-  background: transparent;
-  border-radius: 17px;
-  display: grid; place-items: center;
-  gap: 3px; font-size: 11px;
-  padding: 9px 6px;
-}
-.bottom-nav button.active {
-  color: #e9f8ff;
-  background: linear-gradient(135deg,#94dfff21,#c28ef519);
-  border-color: #bedbff1b;
-}
-svg.icon { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round }
-
-dialog {
-  width: min(510px,calc(100% - 24px));
-  max-height: 90dvh;
-  overflow-y: auto;
-  padding: 27px;
-  border: 1px solid #d5e2ff2a;
-  border-radius: 27px;
-  background: #151e33;
-  color: var(--text);
-  box-shadow: 0 30px 100px #00000066;
-}
-dialog::backdrop { background: #030917b8 }
-dialog h2 { margin-bottom: 23px }
-.dialog-head { display: flex; align-items: start; justify-content: space-between; gap: 10px }
-.dialog-head h2 { margin-top: 4px }
-
-#toast {
-  position: fixed;
-  z-index: 20;
-  top: max(18px,env(safe-area-inset-top));
-  left: 50%;
-  transform: translateX(-50%);
-  width: max-content;
-  max-width: calc(100% - 30px);
-  padding: 13px 20px;
-  border-radius: 17px;
-  border: 1px solid #c5e9ff3a;
-  color: #eef7ff;
-  background: #1c2e48;
-  box-shadow: 0 12px 45px #00000055;
-  font-size: 14px;
-}
-
-.saved .garden { animation: glow .85s ease }
-@keyframes glow {
-  50% { box-shadow: 0 0 45px #9bcfff28, inset 0 0 35px #dfb1ff0b }
-}
-@media(max-width:600px) {
-  .app { padding-left: 16px; padding-right: 16px }
-  header { margin-bottom: 23px }
-  .garden { padding: 21px 19px 19px }
-  .garden-head { gap: 8px }
-  .garden-head h2 { font-size: 19px }
-  .scene { min-height: 220px }
-  .habits { grid-template-columns: 1fr }
-  .habit { padding: 20px }
-  .garden-bottom { align-items: start }
-  .garden-bottom p { max-width: 190px }
-  .stat { padding: 15px 10px }
-  .stat strong { font-size: 24px }
-  .stat span { font-size: 11px }
-  .stats-grid { gap: 8px }
-  .chart { gap: 5px }
-  .heatmap { gap: 4px }
-  .chart-card { padding: 20px 16px }
-}
-@media(prefers-reduced-motion:reduce) {
-  *,*::before,*::after { animation: none !important; transition: none !important }
-}
-@media(prefers-reduced-transparency:reduce) {
-  .glass { background: #172138; backdrop-filter: none; -webkit-backdrop-filter: none }
+@media(prefers-reduced-transparency:reduce){
+  .glass{background:#172138;backdrop-filter:none;-webkit-backdrop-filter:none}
 }
 </style>
 </head>
-
 <body>
 <main class="app">
-  <header>
+  <header class="row">
     <div>
+      <div class="eyebrow">Ночное сияние</div>
+      <h1>Тихий сад</h1>
+      <p id="todayLabel" class="caption"></p>
+    </div>
+    <button id="settingsButton" class="secondary" aria-label="Открыть настройки">☷</button>
+  </header>
+
+  <section id="page-garden">
+    <div class="glass garden">
+      <div class="row">
+        <h2>Ваш сад растёт</h2>
+        <span class="pill" id="level"></span>
+      </div>
+      <div class="plants" id="plants"></div>
+      <div class="garden-foot">Маленькие шаги оставляют след. Всегда можно вернуться.</div>
+    </div>
+    <div class="section-head row">
+      <div>
+        <h2>Сегодня</h2>
+        <p id="todayCount" class="caption"></p>
+      </div>
+      <button id="addHabit">+ Привычка</button>
+    </div>
+    <div id="habits" class="cards"></div>
+  </section>
+
+  <section id="page-journal" hidden>
+    <div class="page-title">
+      <h2>Дневник практики</h2>
+      <p class="muted">Место для наблюдений, а не оценок.</p>
+    </div>
+    <label>Привычка<select id="journalFilter"></select></label>
+    <div id="journal" class="list"></div>
+  </section>
+
+  <section id="page-progress" hidden>
+    <div class="page-title">
+      <h2>Прогресс без спешки</h2>
+      <p class="muted">Каждая практика остаётся частью пути.</p>
+    </div>
+    <label>Привычка<select id="statsFilter"></select></label>
+    <div class="stats" id="stats"></div>
+    <div class="glass card">
+      <h3 id="chartTitle"></h3>
+      <p class="caption">Последние 14 дней</p>
+      <div class="chart" id="chart"></div>
+      <p class="caption">Нажмите на столбец, чтобы увидеть значение.</p>
+    </div>
+    <div class="glass card spaced">
+      <h3>Календарь возвращений</h3>
+      <p class="caption">56 дней, слева направо. Цвет — число записей.</p>
+      <div class="heatmap" id="heatmap"></div>
+    </div>
+  </section>
+
+  <section id="page-settings" hidden>
+    <div class="page-title"><h2>Ваши данные</h2></div>
+    <div class="glass card settings">
+      <h3>Дневник хранится на устройстве</h3>
+      <p class="muted">Записи находятся в этом браузере. Они не отправляются на GitHub и не синхронизируются между устройствами.</p>
+      <p class="muted">Очистка данных сайта может удалить дневник. Регулярно сохраняйте резервную копию.</p>
+      <div class="actions">
+        <button id="exportButton">Скачать JSON</button>
+        <button id="importButton" class="secondary">Восстановить</button>
+      </div>
+      <input id="importFile" type="file" accept=".json,application/json" hidden>
+      <p class="caption">Файл содержит заметки без шифрования. Восстановление заменяет текущие данные.</p>
+    </div>
+    <div class="glass card settings spaced">
+      <h3>Как растёт сад</h3>
+      <p class="muted">У каждой привычки своё растение: семя, росток, листья, бутон и цветение. Следующие стадии открываются после 3, 7, 14 и 30 дней практики.</p>
+      <p class="muted">Каждый отдельный день одной привычки даёт 10 XP, независимо от числа записей. Новый уровень — каждые 100 XP. Штрафов за пропуски нет.</p>
+    </div>
+  </section>
+</main>
+
+<nav class="glass" aria-label="Разделы">
+  <button data-page="garden" class="active" aria-current="page">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V10M12 15C5 15 3 10 4 5c6 0 9 3 8 10ZM12 11c0-5 3-8 8-8 1 5-2 9-8 8Z"/></svg>
+    Сад
+  </button>
+  <button data-page="journal">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v18H5zM8 3v18M11 8h5M11 12h5"/></svg>
+    Дневник
+  </button>
+  <button data-page="progress">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h17M7 16v-5M12 16V5M17 16V8"/></svg>
+    Прогресс
+  </button>
+</nav>
+
+<dialog id="habitDialog" aria-labelledby="habitHeading">
+  <form id="habitForm">
+    <h2 id="habitHeading">Новая привычка</h2>
+    <label>Название
+      <input id="habitName" required maxlength="80" placeholder="Например, медитация">
+    </label>
+    <div class="form-grid">
+      <label>Символ
+        <select id="habitIcon">
+          <option>🧘</option><option>📚</option><option>🚶</option>
+          <option>💧</option><option>🌙</option><option>✍️</option><option>🌿</option>
+        </select>
+      </label>
+      <label>Тип
+        <select id="habitType">
+          <option value="duration">Минуты</option>
+          <option value="boolean">Выполнено</option>
+          <option value="number">Количество</option>
+        </select>
+      </label>
+    </div>
+    <div class="form-grid">
+      <label id="targetField">Цель на день
+        <input id="habitTarget" type="number" min="0.1" max="1000000" step="any" value="10">
+      </label>
+      <label id="unitField" hidden>Единица
+        <input id="habitUnit" maxlength="24" placeholder="страниц">
+      </label>
+    </div>
+    <label>Подсказка для заметки
+      <input id="habitPrompt" maxlength="160" placeholder="Что я заметил во время практики?">
+    </label>
+    <div class="actions">
+      <button type="button" class="ghost" data-close="habitDialog">Отмена</button>
+      <button type="submit">Посадить</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="entryDialog" aria-labelledby="entryHeading">
+  <form id="entryForm">
+    <h2 id="entryHeading">Запись практики</h2>
+    <label>Дата<input id="entryDate" type="date" required></label>
+    <label id="valueField">
+      <span id="valueLabel">Минуты</span>
+      <input id="entryValue" type="number" min="0.1" max="1000000" step="any">
+    </label>
+    <label>Заметка — необязательно
+      <textarea id="entryNote" maxlength="10000" placeholder="Как прошла практика?"></textarea>
+    </label>
+    <div class="actions">
+      <button type="button" class="ghost" data-close="entryDialog">Отмена</button>
+      <button type="submit">Сохранить</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+"use strict";
+
+const $ = (selector) => document.querySelector(selector);
+const esc = (value) => String(value).replace(/[&<>"']/g, char => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+})[char]);
+
+const format = new Intl.NumberFormat("ru-RU",{maximumFractionDigits:1});
+const fmt = value => format.format(value);
+
+function dateKey(date = new Date()) {
+  return [
+    date.getFullYear(),
+    String(date.getMonth()+1).padStart(2,"0"),
+    String(date.getDate()).padStart(2,"0")
+  ].join("-");
+}
+
+function dateText(key) {
+  return new Date(key+"T12:00:00").toLocaleDateString("ru-RU",{
+    day:"numeric",month:"long",year:"numeric"
+  });
+}
+
+function validDate(key) {
+  if (typeof key !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(key)) return false;
+  const date = new Date(key+"T12:00:00");
+  return Number.isFinite(date.getTime()) && dateKey(date) === key;
+}
+
+function daysBack(count) {
+  return Array.from({length:count},(_,i)=>{
+    const date = new Date();
+    date.setHours(12,0,0,0);
+    date.setDate(date.getDate() - count + 1 + i);
+    return dateKey(date);
+  });
+}
+
+let toastTimer;
+function toast(text) {
+  $("#toast").textContent = text;
+  $("#toast").hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>$("#toast").hidden=true,4200);
+}
+
+let db = null;
+let habits = [];
+let entries = [];
+let busy = false;
+let activeHabit = null;
+let editingEntry = null;
+
+function openDB() {
+  return new Promise((resolve,reject)=>{
+    const request = indexedDB.open("quiet-garden",1);
+    request.onupgradeneeded = ()=>{
+      const database = request.result;
+      for (const name of ["habits","entries"]) {
+        if (!database.objectStoreNames.contains(name)) {
+          database.createObjectStore(name,{keyPath:"id"});
+        }
+      }
+    };
+    request.onsuccess = ()=>resolve(request.result);
+    request.onerror = ()=>reject(request.error);
+    request.onblocked = ()=>toast("Закройте другие вкладки сада и обновите страницу.");
+  });
+}
+
+function readAll() {
+  return new Promise((resolve,reject)=>{
+    const tx = db.transaction(["habits","entries"],"readonly");
+    const h = tx.objectStore("habits").getAll();
+    const e = tx.objectStore("entries").getAll();
+    tx.oncomplete = ()=>resolve({habits:h.result,entries:e.result});
+    tx.onerror = ()=>reject(tx.error);
+    tx.onabort = ()=>reject(tx.error || new Error("Чтение отменено"));
+  });
+}
+
+function write(names,callback) {
+  return new Promise((resolve,reject)=>{
+    const tx = db.transaction(names,"readwrite");
+    tx.oncomplete = ()=>resolve();
+    tx.onerror = ()=>reject(tx.error);
+    tx.onabort = ()=>reject(tx.error || new Error("Запись отменена"));
+    try { callback(tx); }
+    catch(error) { tx.abort(); reject(error); }
+  });
+}
+
+async function refresh() {
+  const data = await readAll();
+  habits = data.habits.sort((a,b)=>a.createdAt.localeCompare(b.createdAt));
+  entries = data.entries;
+  render();
+}
+
+async function run(action) {
+  if (busy) return;
+  if (!db) return toast("Хранилище недоступно. Обновите страницу.");
+  busy = true;
+  const buttons = [...document.querySelectorAll('button[type="submit"]')];
+  buttons.forEach(button=>button.disabled=true);
+  try { await action(); }
+  catch(error) {
+    console.error(error);
+    toast("Операция не завершена. Проверьте доступность хранилища.");
+  } finally {
+    busy = false;
+    buttons.forEach(button=>button.disabled=false);
+  }
+}
+
+const byHabit = id => entries.filter(entry=>entry.habitId===id);
+const uniqueDays = list => new Set(list.map(entry=>entry.date)).size;
+const unit = habit => habit.type==="duration" ? "мин" : (habit.unit || "раз");
+
+function dailyValue(habit,key) {
+  const list = byHabit(habit.id).filter(entry=>entry.date===key);
+  return habit.type==="boolean"
+    ? Number(list.length>0)
+    : list.reduce((sum,entry)=>sum+entry.value,0);
+}
+
+function plantSVG(days,index) {
+  const stage = days>=30?4:days>=14?3:days>=7?2:days>=3?1:0;
+  const color = ["#98dfff","#cab6f7","#f0b9de"][index%3];
+  const top = [116,88,62,46,35][stage];
+  const stem = stage>0
+    ? `<path d="M60 131 Q54 96 60 ${top}" stroke="${color}" stroke-width="2.5" fill="none"/>`
+    : "";
+  const leaves = stage>0
+    ? `<path d="M58 107Q28 106 27 83Q53 82 58 107Z" fill="${color}" fill-opacity=".35" stroke="${color}" stroke-opacity=".7"/>
+       <path d="M58 91Q84 90 91 66Q64 65 58 91Z" fill="${color}" fill-opacity=".25" stroke="${color}" stroke-opacity=".65"/>`
+    : "";
+  const extra = stage>1
+    ? `<path d="M59 74Q34 70 37 50Q57 50 59 74Z" fill="${color}" fill-opacity=".3" stroke="${color}" stroke-opacity=".65"/>`
+    : "";
+  const bloom = stage>=3
+    ? `<g fill="#efb1df" fill-opacity=".48" stroke="#f9d8ee" stroke-opacity=".7">
+        <ellipse cx="60" cy="${top-5}" rx="${stage===4?12:7}" ry="15"/>
+        ${stage===4?`<ellipse cx="47" cy="${top}" rx="10" ry="14" transform="rotate(-35 47 ${top})"/>
+        <ellipse cx="73" cy="${top}" rx="10" ry="14" transform="rotate(35 73 ${top})"/>`:""}
+       </g>`
+    : `<ellipse cx="60" cy="${top}" rx="6" ry="9" fill="${color}" fill-opacity=".7"/>`;
+
+  return `<svg viewBox="0 0 120 155" aria-hidden="true">
+    <ellipse cx="60" cy="133" rx="42" ry="12" fill="${color}" fill-opacity=".05"/>
+    <ellipse cx="60" cy="133" rx="29" ry="6" fill="${color}" fill-opacity=".12"/>
+    ${stem}${leaves}${extra}${bloom}
+    <circle cx="22" cy="48" r="1.5" fill="${color}" opacity=".7"/>
+    <circle cx="92" cy="31" r="1" fill="${color}" opacity=".5"/>
+  </svg>`;
+}
+
+function setPage(page) {
+  document.querySelectorAll('section[id^="page-"]').forEach(section=>{
+    section.hidden = section.id !== "page-"+page;
+  });
+  document.querySelectorAll("nav button").forEach(button=>{
+    const selected = button.dataset.page === page;
+    button.classList.toggle("active",selected);
+    if (selected) button.setAttribute("aria-current","page");
+    else button.removeAttribute("aria-current");
+  });
+}
+
+function updateFilters() {
+  for (const id of ["journalFilter","statsFilter"]) {
+    const select = $("#"+id);
+    const old = select.value;
+    select.innerHTML = '<option value="">Все привычки</option>' +
+      habits.map(h=>`<option value="${esc(h.id)}">${esc(h.name)}</option>`).join("");
+    select.value = habits.some(h=>h.id===old) ? old : "";
+  }
+}
+
+function render() {
+  $("#todayLabel").textContent = new Date().toLocaleDateString("ru-RU",{
+    weekday:"long",day:"numeric",month:"long"
+  });
+  updateFilters();
+  renderGarden();
+  renderJournal();
+  renderStats();
+}
+
+function renderGarden() {
+  const xp = habits.reduce((sum,h)=>sum+uniqueDays(byHabit(h.id))*10,0);
+  $("#level").textContent = `Уровень ${Math.floor(xp/100)+1} · ${xp} XP`;
+
+  $("#plants").innerHTML = habits.length
+    ? habits.map((h,i)=>{
+        const days = uniqueDays(byHabit(h.id));
+        return `<div class="plant">${plantSVG(days,i)}
+          <div class="plant-name">${esc(h.name)}</div>
+          <div class="plant-days">Дней практики: ${days}</div></div>`;
+      }).join("")
+    : `<div class="empty" style="width:100%">
+         ${plantSVG(0,0)}<p>Здесь появится ваша первая привычка.</p>
+       </div>`;
+
+  const completed = habits.filter(h=>dailyValue(h,dateKey())>=h.target).length;
+  $("#todayCount").textContent = habits.length
+    ? `Достигнуто целей: ${completed} из ${habits.length}` : "Начнём с маленького шага";
+
+  $("#habits").innerHTML = habits.length
+    ? habits.map(h=>{
+        const value = dailyValue(h,dateKey());
+        const done = value>=h.target;
+        const percent = Math.min(100,value/h.target*100);
+        const latest = byHabit(h.id).filter(e=>e.note).sort((a,b)=>
+          b.date.localeCompare(a.date)||b.createdAt.localeCompare(a.createdAt)
+        )[0];
+        const display = h.type==="boolean"
+          ? done?"Выполнено ✓":"Можно начать"
+          : `${fmt(value)} <span>/ ${fmt(h.target)} ${esc(unit(h))}</span>`;
+        return `<article class="glass card">
+          <div class="row">
+            <div class="habit-title">
+              <div class="habit-icon">${esc(h.icon)}</div>
+              <div><h3>${esc(h.name)}</h3><p class="caption">Ежедневная практика</p></div>
+            </div>
+            <button class="ghost small" data-delete-habit="${esc(h.id)}"
+              aria-label="Удалить привычку ${esc(h.name)}">×</button>
+          </div>
+          <div class="value">${display}</div>
+          <div class="track"><div style="width:${percent}%"></div></div>
+          ${latest?`<p class="preview">${esc(latest.note)}</p>`:""}
+          <div class="row card-foot">
+            <span class="caption">${done?"На сегодня достаточно":"Любой шаг имеет значение"}</span>
+            <button class="${done?"secondary":""}" data-add="${esc(h.id)}">${done?"+ Запись":"Отметить"}</button>
+          </div>
+        </article>`;
+      }).join("")
+    : '<div class="glass empty"><h3>Посадим первую привычку?</h3><p>Например, медитация — 10 минут в день.</p></div>';
+}
+
+function renderJournal() {
+  const filter = $("#journalFilter").value;
+  const list = entries.filter(e=>!filter||e.habitId===filter).slice().sort((a,b)=>
+    b.date.localeCompare(a.date)||b.createdAt.localeCompare(a.createdAt)
+  );
+  $("#journal").innerHTML = list.length
+    ? list.map(e=>{
+        const h = habits.find(h=>h.id===e.habitId);
+        if (!h) return "";
+        const value = h.type==="boolean"?"Выполнено":`${fmt(e.value)} ${esc(unit(h))}`;
+        return `<article class="glass card entry">
+          <div class="row"><h3>${esc(h.icon)} ${esc(h.name)}</h3><span class="pill">${value}</span></div>
+          <p class="caption">${esc(dateText(e.date))}</p>
+          <p class="entry-note ${e.note?"":"muted"}">${esc(e.note||"Практика без заметки — тоже практика.")}</p>
+          <div class="actions">
+            <button class="ghost small" data-edit="${esc(e.id)}">Изменить</button>
+            <button class="ghost small" data-delete-entry="${esc(e.id)}">Удалить</button>
+          </div>
+        </article>`;
+      }).join("")
+    : '<div class="glass empty">Здесь появятся ваши записи.</div>';
+}
+
+function renderStats() {
+  const filter = $("#statsFilter").value;
+  const h = habits.find(h=>h.id===filter);
+  const list = entries.filter(e=>!filter||e.habitId===filter);
+  const days = daysBack(14);
+  const active = uniqueDays(list.filter(e=>days.includes(e.date)));
+  const minutes = list.reduce((sum,e)=>{
+    const related = habits.find(h=>h.id===e.habitId);
+    return sum+(related?.type==="duration"?e.value:0);
+  },0);
+
+  $("#stats").innerHTML = `
+    <div class="glass stat"><strong>${list.length}</strong><span>записей всего</span></div>
+    <div class="glass stat"><strong>${active}/14</strong><span>дней с практикой</span></div>
+    <div class="glass stat"><strong>${fmt(minutes)}</strong><span>минут всего</span></div>`;
+
+  const numeric = h && h.type!=="boolean";
+  const chartUnit = numeric?unit(h):"записей";
+  $("#chartTitle").textContent = numeric?`${h.name}: ${chartUnit}`:"Записи по дням";
+
+  const values = days.map(day=>{
+    const daily = list.filter(e=>e.date===day);
+    return numeric?daily.reduce((sum,e)=>sum+e.value,0):daily.length;
+  });
+  const max = Math.max(1,...values);
+
+  $("#chart").innerHTML = days.map((day,i)=>{
+    const label = `${dateText(day)}: ${fmt(values[i])} ${chartUnit}`;
+    return `<div class="column"><div class="bar-space">
+      <button class="bar" style="height:${Math.max(2,values[i]/max*100)}%;opacity:${values[i]?1:.25}"
+        data-tip="${esc(label)}" aria-label="${esc(label)}"></button>
+      </div><small>${Number(day.slice(-2))}</small></div>`;
+  }).join("");
+
+  $("#heatmap").innerHTML = daysBack(56).map(day=>{
+    const count = list.filter(e=>e.date===day).length;
+    const label = `${dateText(day)}: записей — ${count}`;
+    return `<button class="cell" data-level="${Math.min(4,count)}"
+      data-tip="${esc(label)}" aria-label="${esc(label)}"></button>`;
+  }).join("");
+}
+
+function syncFields() {
+  const type = $("#habitType").value;
+  $("#targetField").hidden = type==="boolean";
+  $("#habitTarget").required = type!=="boolean";
+  $("#habitTarget").disabled = type==="boolean";
+  $("#unitField").hidden = type!=="number";
+}
+
+$("#addHabit").onclick = ()=>{
+  $("#habitForm").reset();
+  syncFields();
+  $("#habitDialog").showModal();
+};
+$("#habitType").onchange = syncFields;
+$("#settingsButton").onclick = ()=>setPage("settings");
+$("#journalFilter").onchange = renderJournal;
+$("#statsFilter").onchange = renderStats;
+
+$("#habitForm").onsubmit = event=>{
+  event.preventDefault();
+  const name = $("#habitName").value.trim();
+  if (!name) return toast("Введите название привычки.");
+
+  const type = $("#habitType").value;
+  const target = type==="boolean"?1:Number($("#habitTarget").value);
+  if (!Number.isFinite(target)||target<=0||target>1000000) return toast("Проверьте цель.");
+
+  run(async()=>{
+    const habit = {
+      id:crypto.randomUUID(),name,icon:$("#habitIcon").value,type,target,
+      unit:type==="number"?$("#habitUnit").value.trim()||"раз":"",
+      prompt:$("#habitPrompt").value.trim(),createdAt:new Date().toISOString()
+    };
+    await write(["habits"],tx=>tx.objectStore("habits").put(habit));
+    $("#habitDialog").close();
+    await refresh();
+    toast("В саду появилось новое растение.");
+  });
+};
+
+function openEntry(habitId,entryId=null) {
+  const h = habits.find(h=>h.id===habitId);
+  if (!h) return;
+  const e = entries.find(e=>e.id===entryId);
+  activeHabit = habitId;
+  editingEntry = entryId;
+  $("#entryForm").reset();
+  $("#entryHeading").textContent = h.name;
+  $("#entryDate").max = dateKey();
+  $("#entryDate").value = e?.date||dateKey();
+  $("#entryValue").value = e?.value??h.target;
+  $("#entryValue").required = h.type!=="boolean";
+  $("#entryValue").disabled = h.type==="boolean";
+  $("#valueField").hidden = h.type==="boolean";
+  $("#valueLabel").textContent = h.type==="duration"?"Продолжительность, мин":`Количество, ${unit(h)}`;
+  $("#entryNote").value = e?.note||"";
+  $("#entryNote").placeholder = h.prompt||"Как прошла практика?";
+  $("#entryDialog").showModal();
+}
+
+$("#entryForm").onsubmit = event=>{
+  event.preventDefault();
+  const h = habits.find(h=>h.id===activeHabit);
+  if (!h) return toast("Привычка не найдена.");
+  const date = $("#entryDate").value;
+  const value = h.type==="boolean"?1:Number($("#entryValue").value);
+  if (!validDate(date)||date>dateKey()) return toast("Укажите сегодняшнюю или прошедшую дату.");
+  if (!Number.isFinite(value)||value<=0||value>1000000) return toast("Проверьте значение.");
+
+  const old = entries.find(e=>e.id===editingEntry);
+  const note = $("#entryNote").value.trim();
+
+  run(async()=>{
+    const entry = {
+      id:old?.id||crypto.randomUUID(),habitId:h.id,date,value,note,
+      createdAt:old?.createdAt||new Date().toISOString()
+    };
+    await write(["entries"],tx=>tx.objectStore("entries").put(entry));
+    $("#entryDialog").close();
+    await refresh();
+    toast(old?"Запись обновлена.":"Практика сохранена. Ещё один маленький шаг.");
+  });
+};
+
+document.addEventListener("click",event=>{
+  const button = event.target.closest("button");
+  if (!button) return;
+  const d = button.dataset;
+
+  if (d.page) setPage(d.page);
+  if (d.close) $("#"+d.close).close();
+  if (d.tip) toast(d.tip);
+  if (d.add) openEntry(d.add);
+
+  if (d.edit) {
+    const entry = entries.find(e=>e.id===d.edit);
+    if (entry) openEntry(entry.habitId,entry.id);
+  }
+
+  if (d.deleteEntry && confirm("Удалить эту запись?")) {
+    run(async()=>{
+      await write(["entries"],tx=>tx.objectStore("entries").delete(d.deleteEntry));
+      await refresh();
+      toast("Запись удалена.");
+    });
+  }
+
+  if (d.deleteHabit) {
+    const h = habits.find(h=>h.id===d.deleteHabit);
+    if (!h||!confirm(`Удалить «${h.name}» и все связанные записи?`)) return;
+    run(async()=>{
+      await write(["habits","entries"],tx=>{
+        tx.objectStore("habits").delete(h.id);
+        // Удаляем связанные записи из самой базы, включая записи другой вкладки.
+        const request = tx.objectStore("entries").openCursor();
+        request.onsuccess = ()=>{
+          const cursor = request.result;
+          if (!cursor) return;
+          if (cursor.value.habitId===h.id) cursor.delete();
+          cursor.continue();
+        };
+      });
+      await refresh();
+      toast("Привычка удалена.");
+    });
+  }
+});
+
+$("#exportButton").onclick = ()=>run(async()=>{
+  const data = await readAll();
+  const backup = {
+    app:"quiet-garden",version:1,exportedAt:new Date().toISOString(),...data
+  };
+  const blob = new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `quiet-garden-${dateKey()}.json`;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),60000);
+  toast("Сохраните резервную копию.");
+});
+
+function validateBackup(data) {
+  const fail = ()=>{throw new Error("Некорректная резервная копия.");};
+  const text = (v,max)=>typeof v==="string"&&v.length<=max;
+  const idOK = v=>typeof v==="string"&&/^[a-zA-Z0-9_-]{1,100}$/.test(v);
+  const timeOK = v=>text(v,40)&&Number.isFinite(Date.parse(v));
+
+  if (!data||data.app!=="quiet-garden"||data.version!==1) fail();
+  if (!Array.isArray(data.habits)||!Array.isArray(data.entries)) fail();
+  if (data.habits.length>500||data.entries.length>100000) fail();
+
+  const map = new Map();
+  const cleanHabits = data.habits.map(h=>{
+    if (!h||!idOK(h.id)||map.has(h.id)) fail();
+    if (!text(h.name,80)||!h.name.trim()||!text(h.icon,16)) fail();
+    if (!["boolean","duration","number"].includes(h.type)) fail();
+    if (!Number.isFinite(h.target)||h.target<=0||h.target>1000000) fail();
+    if (h.type==="boolean"&&h.target!==1) fail();
+    if (!text(h.unit,24)||!text(h.prompt,160)||!timeOK(h.createdAt)) fail();
+    const clean = {
+      id:h.id,name:h.name.trim(),icon:h.icon,type:h.type,
+      target:h.target,unit:h.unit,prompt:h.prompt,createdAt:h.createdAt
+    };
+    map.set(h.id,clean);
+    return clean;
+  });
+
+  const ids = new Set();
+  const cleanEntries = data.entries.map(e=>{
+    if (!e||!idOK(e.id)||ids.has(e.id)||!map.has(e.habitId)) fail();
+    if (!validDate(e.date)||e.date>dateKey()) fail();
+    if (!Number.isFinite(e.value)||e.value<=0||e.value>1000000) fail();
+    if (map.get(e.habitId).type==="boolean"&&e.value!==1) fail();
+    if (!text(e.note,10000)||!timeOK(e.createdAt)) fail();
+    ids.add(e.id);
+    return {
+      id:e.id,habitId:e.habitId,date:e.date,value:e.value,
+      note:e.note,createdAt:e.createdAt
+    };
+  });
+  return {habits:cleanHabits,entries:cleanEntries};
+}
+
+$("#importButton").onclick = ()=>$("#importFile").click();
+
+$("#importFile").onchange = async event=>{
+  const file = event.target.files[0];
+  event.target.value = "";
+  if (!file) return;
+  if (file.size>20*1024*1024) return toast("Максимальный размер файла — 20 МБ.");
+
+  let data;
+  try { data = validateBackup(JSON.parse(await file.text())); }
+  catch(error) {
+    toast(error instanceof SyntaxError?"Не удалось прочитать JSON.":error.message);
+    return;
+  }
+
+  if (!confirm(
+    `Заменить текущие данные?\nПривычек в копии: ${data.habits.length}.\nЗаписей: ${data.entries.length}.\n\nСначала скачайте текущую копию, если она нужна.`
+  )) return;
+
+  run(async()=>{
+    await write(["habits","entries"],tx=>{
+      const h = tx.objectStore("habits");
+      const e = tx.objectStore("entries");
+      h.clear();
+      e.clear();
+      data.habits.forEach(item=>h.put(item));
+      data.entries.forEach(item=>e.put(item));
+    });
+    await refresh();
+    toast("Сад восстановлен.");
+  });
+};
+
+let displayedDate = dateKey();
+
+document.addEventListener("visibilitychange",()=>{
+  if (!document.hidden&&db) run(refresh);
+});
+
+setInterval(()=>{
+  if (db && dateKey()!==displayedDate) {
+    displayedDate = dateKey();
+    render();
+  }
+},30000);
+
+async function init() {
+  try {
+    db = await openDB();
+    db.onversionchange = ()=>{
+      db.close();
+      db = null;
+      toast("Обновите страницу приложения.");
+    };
+    await refresh();
+  } catch(error) {
+    console.error(error);
+    db = null;
+    $("#habits").innerHTML =
+      '<div class="glass empty">Не удалось открыть локальное хранилище. Откройте сайт в обычном режиме Safari и обновите страницу.</div>';
+    toast("Хранилище недоступно.");
+  }
+}
+
+init();
+</script>
+</body>
+</html>
