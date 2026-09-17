@@ -2,176 +2,194 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#090e20">
 <meta name="color-scheme" content="dark">
 <title>Тихий сад</title>
+
 <style>
 :root{
-  --bg:#090e20;--text:#f4f6ff;--muted:#bac5df;
-  --cyan:#92e0ff;--pink:#efb1df;--line:#dbe6ff24
+  --bg:#090e20;--text:#f4f6ff;--muted:#bdc8df;
+  --cyan:#99e1ff;--pink:#efb4df;--line:#dbe6ff26
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 body{
-  margin:0;color:var(--text);background:var(--bg);
+  margin:0;background:var(--bg);color:var(--text);
   font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
 }
 body::before{
   content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
   background:
-    radial-gradient(ellipse at 0% 5%,#235cb568,transparent 48%),
-    radial-gradient(ellipse at 100% 30%,#a542874d,transparent 48%),
-    radial-gradient(ellipse at 45% 95%,#6251c233,transparent 50%),#090e20
+    radial-gradient(ellipse at 0% 5%,#245eb869,transparent 48%),
+    radial-gradient(ellipse at 100% 30%,#ab428b4a,transparent 48%),
+    radial-gradient(ellipse at 45% 95%,#6652c635,transparent 50%),#090e20
 }
 button,input,textarea,select{font:inherit}
 button{
-  cursor:pointer;min-height:44px;padding:11px 16px;border-radius:14px;
-  border:1px solid transparent;color:#111b30;font-weight:650;
-  background:linear-gradient(120deg,#a2e6ff,#d4bcf3)
+  min-height:44px;padding:11px 16px;cursor:pointer;
+  border:1px solid transparent;border-radius:14px;
+  background:linear-gradient(120deg,#a4e7ff,#d7bef6);
+  color:#111b30;font-weight:650;-webkit-tap-highlight-color:transparent
 }
 button:disabled{opacity:.5;cursor:wait}
 button.secondary{color:var(--text);background:#ffffff09;border-color:var(--line)}
 button.ghost{color:var(--muted);background:transparent}
+button.danger{color:#ffd1dd;background:#ff8dab10;border-color:#ffacc630}
 button.small{padding:8px 11px;font-size:13px}
 :focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
 h1,h2,h3,p{margin:0}
 h1{font-size:clamp(32px,7vw,43px);letter-spacing:-.055em}
-h2{font-size:23px;letter-spacing:-.035em}
+h2{font-size:24px;letter-spacing:-.035em}
 h3{font-size:17px}
-.muted{color:var(--muted)}
-.caption{font-size:13px;color:var(--muted)}
-.eyebrow{font-size:11px;letter-spacing:.13em;color:var(--cyan);text-transform:uppercase}
-.app{max-width:960px;margin:auto;padding:30px 20px 140px}
+.muted,.caption{color:var(--muted)}
+.caption{font-size:13px}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
+.app{max-width:960px;margin:auto;padding:30px 20px 145px}
 .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
 header{margin-bottom:26px}
 header p{margin-top:5px}
 .glass{
-  background:#172138ed;border:1px solid var(--line);border-radius:25px;
-  box-shadow:0 18px 55px #00000026,inset 0 1px 0 #ffffff08
+  background:#172138f0;border:1px solid var(--line);border-radius:25px;
+  box-shadow:0 18px 55px #00000026,inset 0 1px 0 #ffffff09
 }
-@supports (backdrop-filter:blur(1px)){
-  .glass{background:#172138b8;backdrop-filter:blur(18px)}
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .glass{background:#172138bf;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
 }
-@supports (-webkit-backdrop-filter:blur(1px)){
-  .glass{-webkit-backdrop-filter:blur(18px)}
-}
+.card{padding:23px}
 .garden{
   padding:24px;overflow:hidden;
-  background:linear-gradient(130deg,#244d716b,#3426418a)
+  background:linear-gradient(130deg,#244d7180,#342641a0)
 }
 .pill{
-  display:inline-block;padding:6px 11px;border:1px solid #cfddff26;
-  background:#ffffff07;border-radius:25px;font-size:12px;white-space:nowrap
+  display:inline-block;padding:6px 11px;border:1px solid #cfddff29;
+  border-radius:25px;font-size:12px;background:#ffffff07;white-space:nowrap
 }
-.plants{
-  display:flex;align-items:end;gap:8px;overflow-x:auto;
-  min-height:220px;padding:20px 0
-}
-.plant{flex:1 0 115px;text-align:center;position:relative}
+.plants{display:flex;align-items:end;gap:8px;overflow-x:auto;min-height:225px;padding:20px 0}
+.plant{flex:1 0 115px;text-align:center}
 .plant svg{width:115px;height:150px}
-.plant-name{font-size:12px;max-width:150px;margin:auto;overflow-wrap:anywhere}
+.plant-name{font-size:12px;max-width:145px;margin:auto;overflow-wrap:anywhere}
 .plant-days{font-size:11px;color:var(--muted)}
-.garden-foot{border-top:1px solid #ffffff10;padding-top:15px;font-size:13px;color:var(--muted)}
-.section-head{margin:25px 0 15px}
+.plant.paused{opacity:.7}
+.garden-foot{border-top:1px solid #ffffff13;padding-top:15px}
+.section-head{margin:26px 0 15px}
 .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
-.card{padding:22px}
-.habit-title{display:flex;align-items:center;gap:11px;min-width:0}
-.habit-title h3{overflow-wrap:anywhere}
-.habit-icon{
-  display:grid;place-items:center;flex-shrink:0;width:44px;height:44px;
-  border-radius:14px;background:linear-gradient(135deg,#8cdaff22,#df9af313);
-  border:1px solid #cee5ff1a;font-size:22px
+.habit-open{
+  display:flex;align-items:center;gap:12px;text-align:left;
+  min-width:0;flex:1;padding:0;background:transparent;color:var(--text)
 }
-.value{font-size:29px;font-weight:650;margin:20px 0 10px;letter-spacing:-.04em}
-.value span{font-size:13px;font-weight:400;color:var(--muted);letter-spacing:0}
-.track{height:5px;background:#dce5ff12;border-radius:10px;overflow:hidden}
-.track div{height:100%;background:linear-gradient(90deg,#87dfff,#d6b9f1)}
-.card-foot{margin-top:17px}
-.preview{font-size:13px;color:var(--muted);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin-top:15px}
-.empty{text-align:center;padding:32px 20px;color:var(--muted);grid-column:1/-1}
+.habit-copy{display:block;flex:1;min-width:0}
+.habit-name{display:block;font-size:17px;overflow-wrap:anywhere}
+.habit-copy .caption{display:block;font-weight:400}
+.habit-icon{
+  display:grid;place-items:center;flex-shrink:0;width:45px;height:45px;
+  border-radius:14px;border:1px solid #cee5ff22;
+  background:linear-gradient(135deg,#8cdaff25,#df9af31b);font-size:22px
+}
+.arrow{color:var(--muted);font-size:25px;font-weight:400}
+.value{font-size:30px;font-weight:650;margin:20px 0 10px;letter-spacing:-.04em}
+.value span{font-size:13px;font-weight:400;letter-spacing:0;color:var(--muted)}
+.track{height:5px;border-radius:10px;overflow:hidden;background:#dce5ff14}
+.track div{height:100%;background:linear-gradient(90deg,#89e0ff,#d9baf2)}
+.card-foot{margin-top:18px}
+.preview{margin-top:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.empty{padding:32px 20px;text-align:center;color:var(--muted);grid-column:1/-1}
 .empty h3{color:var(--text);margin-bottom:8px}
 .page-title{margin:5px 0 24px}
 .page-title h2{font-size:29px}
-.page-title p{margin-top:6px}
-label{display:block;color:var(--muted);font-size:13px;margin-bottom:16px}
-input,select,textarea{
+.page-title p{margin-top:7px}
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:17px}
+input,textarea,select{
   display:block;width:100%;min-width:0;margin-top:7px;padding:13px;
-  border:1px solid #c9daff29;border-radius:13px;background:#0c1429;
-  color:var(--text);font-size:16px
+  border:1px solid #c9daff30;border-radius:13px;
+  background:#0c1429;color:var(--text);font-size:16px
 }
-input::placeholder,textarea::placeholder{color:#99a7c3}
+input::placeholder,textarea::placeholder{color:#9aa9c5}
 textarea{min-height:125px;resize:vertical}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.actions{display:flex;flex-wrap:wrap;justify-content:end;gap:8px;margin-top:20px}
+.actions{display:flex;flex-wrap:wrap;justify-content:end;gap:9px;margin-top:20px}
 .list{display:grid;gap:14px}
-.entry{background:#151e33ed}
+.entry{background:#151e33f0}
 .entry-note{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.75;margin-top:16px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:15px}
-.stat{padding:17px 13px}
-.stat strong{display:block;font-size:27px;letter-spacing:-.04em}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.stat{padding:18px 13px}
+.stat strong{display:block;font-size:27px;letter-spacing:-.04em;overflow-wrap:anywhere}
 .stat span{font-size:12px;color:var(--muted)}
-.chart{
-  display:grid;grid-template-columns:repeat(14,minmax(0,1fr));
-  gap:7px;height:190px;margin:24px 0 12px
-}
+.chart{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:7px;height:190px;margin:24px 0 12px}
 .column{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0}
 .bar-space{display:flex;align-items:end;flex:1;width:100%}
 .bar{
-  width:100%;min-height:4px;padding:0;border-radius:7px 7px 3px 3px;
-  background:linear-gradient(0deg,#477ca6,#98e0fa);border:1px solid #bbf0ff30
+  padding:0;width:100%;min-height:4px;border-radius:7px 7px 3px 3px;
+  background:linear-gradient(0deg,#477ca6,#a0e5fc);border:1px solid #bbf0ff36
 }
-.column:last-child .bar{background:linear-gradient(0deg,#9766b0,#f0b8e0)}
+.column:last-child .bar{background:linear-gradient(0deg,#9966b2,#f3bbe3)}
 .column small{font-size:10px;color:var(--muted)}
 .heatmap{display:grid;grid-template-columns:repeat(14,1fr);gap:5px;margin-top:18px}
-.cell{aspect-ratio:1;min-height:0;padding:0;background:#b7cfff10;border-radius:5px}
-.cell[data-level="1"]{background:#294b67}
-.cell[data-level="2"]{background:#447f9d}
-.cell[data-level="3"]{background:#6bb4d1}
-.cell[data-level="4"]{background:#a6e8fa}
-.spaced{margin-top:16px}
+.cell{aspect-ratio:1;min-height:0;padding:0;background:#b7cfff12;border-radius:5px}
+.cell[data-level="1"]{background:#2d526e}
+.cell[data-level="2"]{background:#4984a2}
+.cell[data-level="3"]{background:#72bbd5}
+.cell[data-level="4"]{background:#b0edfb}
+.spaced{margin-top:17px}
 .settings p{margin-top:13px}
+.detail-toolbar{display:flex;justify-content:space-between;gap:10px;margin-bottom:17px}
+.detail-heading{display:flex;align-items:center;gap:15px;margin-bottom:20px}
+.detail-heading h2{font-size:28px;overflow-wrap:anywhere}
+.detail-icon{width:62px;height:62px;border-radius:20px;font-size:30px}
+.detail-primary{display:flex;align-items:center;justify-content:space-between;gap:15px}
+.detail-primary .value{margin:0}
+.note-box{
+  padding:15px 17px;margin-top:18px;border-radius:16px;
+  background:#ffffff07;border:1px solid #ffffff10;
+  color:var(--muted);font-size:14px;overflow-wrap:anywhere
+}
 nav{
   position:fixed;z-index:5;bottom:calc(15px + env(safe-area-inset-bottom));
   left:50%;transform:translateX(-50%);display:flex;gap:5px;padding:7px;
-  width:min(420px,calc(100% - 28px));background:#111c32f2!important;border-radius:22px
+  width:min(420px,calc(100% - 28px));border-radius:22px;
+  background:#111c32f5!important
 }
 nav button{
-  flex:1;min-width:0;background:transparent;color:var(--muted);
-  padding:8px 4px;font-size:11px;display:grid;place-items:center;gap:4px
+  flex:1;min-width:0;display:grid;place-items:center;gap:4px;
+  padding:8px 4px;font-size:11px;background:transparent;color:var(--muted)
 }
-nav button.active{color:#edf8ff;background:linear-gradient(130deg,#96dfff20,#d9a8f519);border-color:#d6e8ff1a}
+nav button.active{
+  color:#edf8ff;border-color:#d6e8ff22;
+  background:linear-gradient(130deg,#96dfff25,#d9a8f520)
+}
 nav svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 dialog{
   width:min(510px,calc(100% - 24px));max-height:90dvh;overflow-y:auto;
-  padding:26px;border:1px solid #cfddff35;border-radius:25px;
+  padding:26px;border:1px solid #cfddff39;border-radius:25px;
   background:#151f35;color:var(--text);box-shadow:0 30px 100px #0008
 }
 dialog::backdrop{background:#030917bb}
 dialog h2{margin-bottom:23px}
 #toast{
   position:fixed;z-index:30;top:max(18px,env(safe-area-inset-top));
-  left:50%;transform:translateX(-50%);width:max-content;
-  max-width:calc(100% - 30px);padding:13px 18px;
-  background:#203450;color:#f2f8ff;border:1px solid #badeff45;border-radius:15px;
-  box-shadow:0 10px 40px #0005;font-size:14px
+  left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100% - 30px);
+  padding:13px 18px;background:#203450;color:#f2f8ff;
+  border:1px solid #badeff49;border-radius:15px;font-size:14px;box-shadow:0 10px 40px #0005
 }
 @media(max-width:600px){
-  .app{padding:25px 15px 140px}
+  .app{padding:25px 15px 145px}
   .cards{grid-template-columns:1fr}
-  .garden,.card{padding:20px}
+  .card,.garden{padding:20px}
   .garden h2{font-size:20px}
   .stats{gap:7px}
   .stat{padding:14px 10px}
   .stat strong{font-size:23px}
   .stat span{font-size:11px}
   .chart{gap:4px}
+  .detail-primary{align-items:stretch;flex-direction:column}
+  .detail-heading h2{font-size:25px}
 }
 @media(prefers-reduced-transparency:reduce){
   .glass{background:#172138;backdrop-filter:none;-webkit-backdrop-filter:none}
 }
 </style>
 </head>
+
 <body>
 <main class="app">
   <header class="row">
@@ -180,26 +198,42 @@ dialog h2{margin-bottom:23px}
       <h1>Тихий сад</h1>
       <p id="todayLabel" class="caption"></p>
     </div>
-    <button id="settingsButton" class="secondary" aria-label="Открыть настройки">☷</button>
+    <button class="secondary" data-page="settings" aria-label="Настройки">☷</button>
   </header>
 
   <section id="page-garden">
     <div class="glass garden">
       <div class="row">
         <h2>Ваш сад растёт</h2>
-        <span class="pill" id="level"></span>
+        <span id="level" class="pill"></span>
       </div>
-      <div class="plants" id="plants"></div>
-      <div class="garden-foot">Маленькие шаги оставляют след. Всегда можно вернуться.</div>
+      <div id="plants" class="plants"></div>
+      <p class="garden-foot caption">
+        Маленькие шаги оставляют след. Всегда можно вернуться.
+      </p>
     </div>
+
     <div class="section-head row">
-      <div>
-        <h2>Сегодня</h2>
-        <p id="todayCount" class="caption"></p>
-      </div>
+      <div><h2>Сегодня</h2><p id="todayCount" class="caption"></p></div>
       <button id="addHabit">+ Привычка</button>
     </div>
     <div id="habits" class="cards"></div>
+
+    <div id="archiveSection" hidden>
+      <div class="section-head">
+        <h2>На паузе</h2>
+        <p class="caption">История сохранена. Вернуться можно в любой момент.</p>
+      </div>
+      <div id="archiveList" class="list"></div>
+    </div>
+  </section>
+
+  <section id="page-habit" hidden>
+    <div class="detail-toolbar">
+      <button class="ghost" data-page="garden">← В сад</button>
+      <button class="secondary" id="editHabit">Редактировать</button>
+    </div>
+    <div id="habitDetail"></div>
   </section>
 
   <section id="page-journal" hidden>
@@ -217,53 +251,61 @@ dialog h2{margin-bottom:23px}
       <p class="muted">Каждая практика остаётся частью пути.</p>
     </div>
     <label>Привычка<select id="statsFilter"></select></label>
-    <div class="stats" id="stats"></div>
-    <div class="glass card">
-      <h3 id="chartTitle"></h3>
-      <p class="caption">Последние 14 дней</p>
-      <div class="chart" id="chart"></div>
-      <p class="caption">Нажмите на столбец, чтобы увидеть значение.</p>
-    </div>
-    <div class="glass card spaced">
-      <h3>Календарь возвращений</h3>
-      <p class="caption">56 дней, слева направо. Цвет — число записей.</p>
-      <div class="heatmap" id="heatmap"></div>
-    </div>
+    <div id="progressContent"></div>
   </section>
 
   <section id="page-settings" hidden>
     <div class="page-title"><h2>Ваши данные</h2></div>
     <div class="glass card settings">
       <h3>Дневник хранится на устройстве</h3>
-      <p class="muted">Записи находятся в этом браузере. Они не отправляются на GitHub и не синхронизируются между устройствами.</p>
-      <p class="muted">Очистка данных сайта может удалить дневник. Регулярно сохраняйте резервную копию.</p>
+      <p class="muted">
+        Записи находятся в этом браузере. Они не отправляются на GitHub
+        и не синхронизируются между устройствами.
+      </p>
+      <p class="muted">
+        Очистка данных сайта или удаление браузерного хранилища могут удалить
+        дневник. Регулярно сохраняйте резервную копию.
+      </p>
       <div class="actions">
         <button id="exportButton">Скачать JSON</button>
         <button id="importButton" class="secondary">Восстановить</button>
       </div>
       <input id="importFile" type="file" accept=".json,application/json" hidden>
-      <p class="caption">Файл содержит заметки без шифрования. Восстановление заменяет текущие данные.</p>
+      <p class="caption">
+        Копия содержит заметки без шифрования. Восстановление заменяет
+        текущие данные. Офлайн-запуск пока не реализован.
+      </p>
     </div>
     <div class="glass card settings spaced">
       <h3>Как растёт сад</h3>
-      <p class="muted">У каждой привычки своё растение: семя, росток, листья, бутон и цветение. Следующие стадии открываются после 3, 7, 14 и 30 дней практики.</p>
-      <p class="muted">Каждый отдельный день одной привычки даёт 10 XP, независимо от числа записей. Новый уровень — каждые 100 XP. Штрафов за пропуски нет.</p>
+      <p class="muted">
+        Растение проходит пять стадий. Новые стадии открываются после
+        3, 7, 14 и 30 разных дней практики.
+      </p>
+      <p class="muted">
+        Каждый день одной привычки даёт 10 XP независимо от числа записей.
+        Новый уровень — каждые 100 XP. Штрафов за пропуски нет.
+        Архивирование сохраняет опыт, а удаление записей пересчитывает его.
+      </p>
     </div>
   </section>
 </main>
 
 <nav class="glass" aria-label="Разделы">
   <button data-page="garden" class="active" aria-current="page">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V10M12 15C5 15 3 10 4 5c6 0 9 3 8 10ZM12 11c0-5 3-8 8-8 1 5-2 9-8 8Z"/></svg>
-    Сад
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 21V10M12 15C5 15 3 10 4 5c6 0 9 3 8 10ZM12 11c0-5 3-8 8-8 1 5-2 9-8 8Z"/>
+    </svg>Сад
   </button>
   <button data-page="journal">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v18H5zM8 3v18M11 8h5M11 12h5"/></svg>
-    Дневник
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 3h14v18H5zM8 3v18M11 8h5M11 12h5"/>
+    </svg>Дневник
   </button>
   <button data-page="progress">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h17M7 16v-5M12 16V5M17 16V8"/></svg>
-    Прогресс
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 20h17M7 16v-5M12 16V5M17 16V8"/>
+    </svg>Прогресс
   </button>
 </nav>
 
@@ -299,9 +341,13 @@ dialog h2{margin-bottom:23px}
     <label>Подсказка для заметки
       <input id="habitPrompt" maxlength="160" placeholder="Что я заметил во время практики?">
     </label>
+    <p id="editHelp" class="caption" hidden>
+      Цель можно менять без изменения записей. Тип и единица измерения
+      фиксируются после первой записи.
+    </p>
     <div class="actions">
       <button type="button" class="ghost" data-close="habitDialog">Отмена</button>
-      <button type="submit">Посадить</button>
+      <button type="submit" id="saveHabit">Посадить</button>
     </div>
   </form>
 </dialog>
@@ -329,13 +375,12 @@ dialog h2{margin-bottom:23px}
 <script>
 "use strict";
 
-const $ = (selector) => document.querySelector(selector);
-const esc = (value) => String(value).replace(/[&<>"']/g, char => ({
+const $ = selector => document.querySelector(selector);
+const esc = value => String(value).replace(/[&<>"']/g, char => ({
   "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
 })[char]);
-
-const format = new Intl.NumberFormat("ru-RU",{maximumFractionDigits:1});
-const fmt = value => format.format(value);
+const formatter = new Intl.NumberFormat("ru-RU",{maximumFractionDigits:1});
+const fmt = value => formatter.format(value);
 
 function dateKey(date = new Date()) {
   return [
@@ -352,35 +397,54 @@ function dateText(key) {
 }
 
 function validDate(key) {
-  if (typeof key !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(key)) return false;
+  if (typeof key!=="string" || !/^\d{4}-\d{2}-\d{2}$/.test(key)) return false;
   const date = new Date(key+"T12:00:00");
-  return Number.isFinite(date.getTime()) && dateKey(date) === key;
+  return Number.isFinite(date.getTime()) && dateKey(date)===key;
 }
 
 function daysBack(count) {
-  return Array.from({length:count},(_,i)=>{
+  return Array.from({length:count},(_,index)=>{
     const date = new Date();
     date.setHours(12,0,0,0);
-    date.setDate(date.getDate() - count + 1 + i);
+    date.setDate(date.getDate()-count+1+index);
     return dateKey(date);
   });
 }
 
 let toastTimer;
-function toast(text) {
-  $("#toast").textContent = text;
+function toast(message) {
+  $("#toast").textContent = message;
   $("#toast").hidden = false;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>$("#toast").hidden=true,4200);
+  toastTimer = setTimeout(()=>$("#toast").hidden=true,4500);
 }
 
 let db = null;
+let busy = false;
 let habits = [];
 let entries = [];
-let busy = false;
-let activeHabit = null;
-let editingEntry = null;
+let currentPage = "garden";
+let selectedHabitId = null;
+let editingHabitId = null;
+let entryHabitId = null;
+let editingEntryId = null;
 
+const isArchived = habit => habit.archived===true;
+const byHabit = id => entries.filter(entry=>entry.habitId===id);
+const uniqueDays = list => new Set(list.map(entry=>entry.date)).size;
+const unit = habit => habit.type==="duration" ? "мин" : habit.unit||"раз";
+const sortedEntries = list => list.slice().sort((a,b)=>
+  b.date.localeCompare(a.date)||b.createdAt.localeCompare(a.createdAt)
+);
+
+function dailyValue(habit,day) {
+  const list = byHabit(habit.id).filter(entry=>entry.date===day);
+  return habit.type==="boolean"
+    ? Number(list.length>0)
+    : list.reduce((sum,entry)=>sum+entry.value,0);
+}
+
+/* Хранилище: совместимо с предыдущими версиями. */
 function openDB() {
   return new Promise((resolve,reject)=>{
     const request = indexedDB.open("quiet-garden",1);
@@ -405,18 +469,28 @@ function readAll() {
     const e = tx.objectStore("entries").getAll();
     tx.oncomplete = ()=>resolve({habits:h.result,entries:e.result});
     tx.onerror = ()=>reject(tx.error);
-    tx.onabort = ()=>reject(tx.error || new Error("Чтение отменено"));
+    tx.onabort = ()=>reject(tx.error||new Error("Чтение отменено"));
   });
 }
 
+// Callback выполняется синхронно или через запросы самой транзакции.
+// Внешние await внутри callback использовать нельзя.
 function write(names,callback) {
   return new Promise((resolve,reject)=>{
     const tx = db.transaction(names,"readwrite");
+    let failure = null;
+    const abort = message=>{
+      failure = new Error(message);
+      tx.abort();
+    };
     tx.oncomplete = ()=>resolve();
-    tx.onerror = ()=>reject(tx.error);
-    tx.onabort = ()=>reject(tx.error || new Error("Запись отменена"));
-    try { callback(tx); }
-    catch(error) { tx.abort(); reject(error); }
+    tx.onerror = ()=>reject(failure||tx.error);
+    tx.onabort = ()=>reject(failure||tx.error||new Error("Запись отменена"));
+    try { callback(tx,abort); }
+    catch(error) {
+      failure = error;
+      tx.abort();
+    }
   });
 }
 
@@ -433,77 +507,77 @@ async function run(action) {
   busy = true;
   const buttons = [...document.querySelectorAll('button[type="submit"]')];
   buttons.forEach(button=>button.disabled=true);
-  try { await action(); }
-  catch(error) {
+  try {
+    await action();
+  } catch(error) {
     console.error(error);
-    toast("Операция не завершена. Проверьте доступность хранилища.");
+    toast(error?.message || "Операция не завершена. Проверьте хранилище.");
   } finally {
     busy = false;
     buttons.forEach(button=>button.disabled=false);
   }
 }
 
-const byHabit = id => entries.filter(entry=>entry.habitId===id);
-const uniqueDays = list => new Set(list.map(entry=>entry.date)).size;
-const unit = habit => habit.type==="duration" ? "мин" : (habit.unit || "раз");
-
-function dailyValue(habit,key) {
-  const list = byHabit(habit.id).filter(entry=>entry.date===key);
-  return habit.type==="boolean"
-    ? Number(list.length>0)
-    : list.reduce((sum,entry)=>sum+entry.value,0);
+/* Навигация и визуализация */
+function showPage(page,scroll=true) {
+  currentPage = page;
+  document.querySelectorAll('section[id^="page-"]').forEach(section=>{
+    section.hidden = section.id!=="page-"+page;
+  });
+  const navPage = page==="habit" ? "garden" : page;
+  document.querySelectorAll("nav button").forEach(button=>{
+    const active = button.dataset.page===navPage;
+    button.classList.toggle("active",active);
+    if (active) button.setAttribute("aria-current","page");
+    else button.removeAttribute("aria-current");
+  });
+  if (scroll) window.scrollTo({top:0,behavior:"auto"});
 }
 
 function plantSVG(days,index) {
   const stage = days>=30?4:days>=14?3:days>=7?2:days>=3?1:0;
   const color = ["#98dfff","#cab6f7","#f0b9de"][index%3];
   const top = [116,88,62,46,35][stage];
-  const stem = stage>0
-    ? `<path d="M60 131 Q54 96 60 ${top}" stroke="${color}" stroke-width="2.5" fill="none"/>`
-    : "";
-  const leaves = stage>0
-    ? `<path d="M58 107Q28 106 27 83Q53 82 58 107Z" fill="${color}" fill-opacity=".35" stroke="${color}" stroke-opacity=".7"/>
-       <path d="M58 91Q84 90 91 66Q64 65 58 91Z" fill="${color}" fill-opacity=".25" stroke="${color}" stroke-opacity=".65"/>`
-    : "";
-  const extra = stage>1
-    ? `<path d="M59 74Q34 70 37 50Q57 50 59 74Z" fill="${color}" fill-opacity=".3" stroke="${color}" stroke-opacity=".65"/>`
-    : "";
-  const bloom = stage>=3
-    ? `<g fill="#efb1df" fill-opacity=".48" stroke="#f9d8ee" stroke-opacity=".7">
-        <ellipse cx="60" cy="${top-5}" rx="${stage===4?12:7}" ry="15"/>
-        ${stage===4?`<ellipse cx="47" cy="${top}" rx="10" ry="14" transform="rotate(-35 47 ${top})"/>
-        <ellipse cx="73" cy="${top}" rx="10" ry="14" transform="rotate(35 73 ${top})"/>`:""}
-       </g>`
-    : `<ellipse cx="60" cy="${top}" rx="6" ry="9" fill="${color}" fill-opacity=".7"/>`;
 
   return `<svg viewBox="0 0 120 155" aria-hidden="true">
-    <ellipse cx="60" cy="133" rx="42" ry="12" fill="${color}" fill-opacity=".05"/>
-    <ellipse cx="60" cy="133" rx="29" ry="6" fill="${color}" fill-opacity=".12"/>
-    ${stem}${leaves}${extra}${bloom}
+    <ellipse cx="60" cy="133" rx="42" ry="12" fill="${color}" fill-opacity=".06"/>
+    <ellipse cx="60" cy="133" rx="29" ry="6" fill="${color}" fill-opacity=".15"/>
+    ${stage>0?`
+      <path d="M60 131Q54 96 60 ${top}" stroke="${color}" stroke-width="2.5" fill="none"/>
+      <path d="M58 107Q28 106 27 83Q53 82 58 107Z"
+        fill="${color}" fill-opacity=".35" stroke="${color}" stroke-opacity=".7"/>
+      <path d="M58 91Q84 90 91 66Q64 65 58 91Z"
+        fill="${color}" fill-opacity=".25" stroke="${color}" stroke-opacity=".65"/>
+    `:""}
+    ${stage>1?`
+      <path d="M59 74Q34 70 37 50Q57 50 59 74Z"
+        fill="${color}" fill-opacity=".3" stroke="${color}" stroke-opacity=".65"/>
+    `:""}
+    ${stage>=3?`
+      <g fill="#efb1df" fill-opacity=".5" stroke="#f9d8ee" stroke-opacity=".7">
+        ${stage===4?`
+          <ellipse cx="47" cy="${top}" rx="10" ry="14" transform="rotate(-35 47 ${top})"/>
+          <ellipse cx="73" cy="${top}" rx="10" ry="14" transform="rotate(35 73 ${top})"/>
+        `:""}
+        <ellipse cx="60" cy="${top-5}" rx="${stage===4?12:7}" ry="15"/>
+      </g>
+    `:`<ellipse cx="60" cy="${top}" rx="6" ry="9" fill="${color}" fill-opacity=".75"/>`}
     <circle cx="22" cy="48" r="1.5" fill="${color}" opacity=".7"/>
     <circle cx="92" cy="31" r="1" fill="${color}" opacity=".5"/>
   </svg>`;
 }
 
-function setPage(page) {
-  document.querySelectorAll('section[id^="page-"]').forEach(section=>{
-    section.hidden = section.id !== "page-"+page;
-  });
-  document.querySelectorAll("nav button").forEach(button=>{
-    const selected = button.dataset.page === page;
-    button.classList.toggle("active",selected);
-    if (selected) button.setAttribute("aria-current","page");
-    else button.removeAttribute("aria-current");
-  });
-}
-
 function updateFilters() {
+  const ordered = [
+    ...habits.filter(h=>!isArchived(h)),
+    ...habits.filter(isArchived)
+  ];
   for (const id of ["journalFilter","statsFilter"]) {
     const select = $("#"+id);
     const old = select.value;
     select.innerHTML = '<option value="">Все привычки</option>' +
-      habits.map(h=>`<option value="${esc(h.id)}">${esc(h.name)}</option>`).join("");
-    select.value = habits.some(h=>h.id===old) ? old : "";
+      ordered.map(h=>`<option value="${esc(h.id)}">${esc(h.name)}${isArchived(h)?" · архив":""}</option>`).join("");
+    select.value = habits.some(h=>h.id===old)?old:"";
   }
 }
 
@@ -514,171 +588,339 @@ function render() {
   updateFilters();
   renderGarden();
   renderJournal();
-  renderStats();
+  renderProgress();
+  renderDetail();
+}
+
+function habitButton(habit,subtitle) {
+  return `<button class="habit-open" data-open="${esc(habit.id)}">
+    <span class="habit-icon">${esc(habit.icon)}</span>
+    <span class="habit-copy">
+      <span class="habit-name">${esc(habit.name)}</span>
+      <span class="caption">${esc(subtitle)}</span>
+    </span>
+    <span class="arrow" aria-hidden="true">›</span>
+  </button>`;
+}
+
+function todayHTML(habit) {
+  const value = dailyValue(habit,dateKey());
+  return habit.type==="boolean"
+    ? value?"Выполнено ✓":"Можно начать"
+    : `${fmt(value)} <span>/ ${fmt(habit.target)} ${esc(unit(habit))}</span>`;
 }
 
 function renderGarden() {
+  const active = habits.filter(h=>!isArchived(h));
+  const archived = habits.filter(isArchived);
   const xp = habits.reduce((sum,h)=>sum+uniqueDays(byHabit(h.id))*10,0);
+
   $("#level").textContent = `Уровень ${Math.floor(xp/100)+1} · ${xp} XP`;
-
   $("#plants").innerHTML = habits.length
-    ? habits.map((h,i)=>{
-        const days = uniqueDays(byHabit(h.id));
-        return `<div class="plant">${plantSVG(days,i)}
-          <div class="plant-name">${esc(h.name)}</div>
-          <div class="plant-days">Дней практики: ${days}</div></div>`;
-      }).join("")
-    : `<div class="empty" style="width:100%">
-         ${plantSVG(0,0)}<p>Здесь появится ваша первая привычка.</p>
-       </div>`;
+    ? habits.map((h,index)=>`
+      <div class="plant ${isArchived(h)?"paused":""}">
+        ${plantSVG(uniqueDays(byHabit(h.id)),index)}
+        <div class="plant-name">${esc(h.name)}</div>
+        <div class="plant-days">
+          ${isArchived(h)?"На паузе · ":""}Дней: ${uniqueDays(byHabit(h.id))}
+        </div>
+      </div>`).join("")
+    : `<div class="empty" style="width:100%">${plantSVG(0,0)}<p>Здесь появится первая привычка.</p></div>`;
 
-  const completed = habits.filter(h=>dailyValue(h,dateKey())>=h.target).length;
-  $("#todayCount").textContent = habits.length
-    ? `Достигнуто целей: ${completed} из ${habits.length}` : "Начнём с маленького шага";
+  const doneCount = active.filter(h=>dailyValue(h,dateKey())>=h.target).length;
+  $("#todayCount").textContent = active.length
+    ? `Достигнуто целей: ${doneCount} из ${active.length}`
+    : "Начнём с маленького шага";
 
-  $("#habits").innerHTML = habits.length
-    ? habits.map(h=>{
-        const value = dailyValue(h,dateKey());
-        const done = value>=h.target;
-        const percent = Math.min(100,value/h.target*100);
-        const latest = byHabit(h.id).filter(e=>e.note).sort((a,b)=>
-          b.date.localeCompare(a.date)||b.createdAt.localeCompare(a.createdAt)
-        )[0];
-        const display = h.type==="boolean"
-          ? done?"Выполнено ✓":"Можно начать"
-          : `${fmt(value)} <span>/ ${fmt(h.target)} ${esc(unit(h))}</span>`;
-        return `<article class="glass card">
-          <div class="row">
-            <div class="habit-title">
-              <div class="habit-icon">${esc(h.icon)}</div>
-              <div><h3>${esc(h.name)}</h3><p class="caption">Ежедневная практика</p></div>
-            </div>
-            <button class="ghost small" data-delete-habit="${esc(h.id)}"
-              aria-label="Удалить привычку ${esc(h.name)}">×</button>
-          </div>
-          <div class="value">${display}</div>
-          <div class="track"><div style="width:${percent}%"></div></div>
-          ${latest?`<p class="preview">${esc(latest.note)}</p>`:""}
-          <div class="row card-foot">
-            <span class="caption">${done?"На сегодня достаточно":"Любой шаг имеет значение"}</span>
-            <button class="${done?"secondary":""}" data-add="${esc(h.id)}">${done?"+ Запись":"Отметить"}</button>
-          </div>
-        </article>`;
-      }).join("")
-    : '<div class="glass empty"><h3>Посадим первую привычку?</h3><p>Например, медитация — 10 минут в день.</p></div>';
+  $("#habits").innerHTML = active.length
+    ? active.map(h=>{
+      const value = dailyValue(h,dateKey());
+      const done = value>=h.target;
+      const latest = sortedEntries(byHabit(h.id)).find(e=>e.note);
+      return `<article class="glass card">
+        ${habitButton(h,"Практика и дневник")}
+        <div class="value">${todayHTML(h)}</div>
+        <div class="track"><div style="width:${Math.min(100,value/h.target*100)}%"></div></div>
+        ${latest?`<p class="preview caption">${esc(latest.note)}</p>`:""}
+        <div class="row card-foot">
+          <span class="caption">${done?"На сегодня достаточно":"Любой шаг имеет значение"}</span>
+          <button class="${done?"secondary":""}" data-add="${esc(h.id)}">${done?"+ Запись":"Отметить"}</button>
+        </div>
+      </article>`;
+    }).join("")
+    : `<div class="glass empty">
+        <h3>${archived.length?"Сад отдыхает":"Посадим первую привычку?"}</h3>
+        <p>${archived.length?"Верните привычку из архива или создайте новую.":"Например, медитация — 10 минут в день."}</p>
+      </div>`;
+
+  $("#archiveSection").hidden = !archived.length;
+  $("#archiveList").innerHTML = archived.map(h=>`
+    <article class="glass card row">
+      ${habitButton(h,`Дней практики: ${uniqueDays(byHabit(h.id))}`)}
+      <button class="secondary small" data-restore="${esc(h.id)}">Вернуть</button>
+    </article>
+  `).join("");
+}
+
+function entriesHTML(list,singleHabit=false) {
+  if (!list.length) return '<div class="glass empty">Здесь появятся ваши записи.</div>';
+  return sortedEntries(list).map(e=>{
+    const h = habits.find(h=>h.id===e.habitId);
+    if (!h) return "";
+    const value = h.type==="boolean"?"Выполнено":`${fmt(e.value)} ${unit(h)}`;
+    return `<article class="glass card entry">
+      <div class="row">
+        <h3>${singleHabit?esc(dateText(e.date)):`${esc(h.icon)} ${esc(h.name)}`}</h3>
+        <span class="pill">${esc(value)}</span>
+      </div>
+      ${singleHabit?"":`<p class="caption">${esc(dateText(e.date))}${isArchived(h)?" · в архиве":""}</p>`}
+      <p class="entry-note ${e.note?"":"muted"}">${esc(e.note||"Практика без заметки — тоже практика.")}</p>
+      <div class="actions">
+        <button class="ghost small" data-edit-entry="${esc(e.id)}">Изменить</button>
+        <button class="ghost small" data-delete-entry="${esc(e.id)}">Удалить</button>
+      </div>
+    </article>`;
+  }).join("");
 }
 
 function renderJournal() {
   const filter = $("#journalFilter").value;
-  const list = entries.filter(e=>!filter||e.habitId===filter).slice().sort((a,b)=>
-    b.date.localeCompare(a.date)||b.createdAt.localeCompare(a.createdAt)
-  );
-  $("#journal").innerHTML = list.length
-    ? list.map(e=>{
-        const h = habits.find(h=>h.id===e.habitId);
-        if (!h) return "";
-        const value = h.type==="boolean"?"Выполнено":`${fmt(e.value)} ${esc(unit(h))}`;
-        return `<article class="glass card entry">
-          <div class="row"><h3>${esc(h.icon)} ${esc(h.name)}</h3><span class="pill">${value}</span></div>
-          <p class="caption">${esc(dateText(e.date))}</p>
-          <p class="entry-note ${e.note?"":"muted"}">${esc(e.note||"Практика без заметки — тоже практика.")}</p>
-          <div class="actions">
-            <button class="ghost small" data-edit="${esc(e.id)}">Изменить</button>
-            <button class="ghost small" data-delete-entry="${esc(e.id)}">Удалить</button>
-          </div>
-        </article>`;
-      }).join("")
-    : '<div class="glass empty">Здесь появятся ваши записи.</div>';
+  $("#journal").innerHTML = entriesHTML(entries.filter(e=>!filter||e.habitId===filter));
 }
 
-function renderStats() {
-  const filter = $("#statsFilter").value;
-  const h = habits.find(h=>h.id===filter);
-  const list = entries.filter(e=>!filter||e.habitId===filter);
+function chartHTML(list,habit) {
+  const numeric = habit && habit.type!=="boolean";
+  const chartUnit = numeric?unit(habit):"записей";
   const days = daysBack(14);
-  const active = uniqueDays(list.filter(e=>days.includes(e.date)));
-  const minutes = list.reduce((sum,e)=>{
-    const related = habits.find(h=>h.id===e.habitId);
-    return sum+(related?.type==="duration"?e.value:0);
-  },0);
-
-  $("#stats").innerHTML = `
-    <div class="glass stat"><strong>${list.length}</strong><span>записей всего</span></div>
-    <div class="glass stat"><strong>${active}/14</strong><span>дней с практикой</span></div>
-    <div class="glass stat"><strong>${fmt(minutes)}</strong><span>минут всего</span></div>`;
-
-  const numeric = h && h.type!=="boolean";
-  const chartUnit = numeric?unit(h):"записей";
-  $("#chartTitle").textContent = numeric?`${h.name}: ${chartUnit}`:"Записи по дням";
-
   const values = days.map(day=>{
     const daily = list.filter(e=>e.date===day);
     return numeric?daily.reduce((sum,e)=>sum+e.value,0):daily.length;
   });
   const max = Math.max(1,...values);
 
-  $("#chart").innerHTML = days.map((day,i)=>{
-    const label = `${dateText(day)}: ${fmt(values[i])} ${chartUnit}`;
-    return `<div class="column"><div class="bar-space">
-      <button class="bar" style="height:${Math.max(2,values[i]/max*100)}%;opacity:${values[i]?1:.25}"
-        data-tip="${esc(label)}" aria-label="${esc(label)}"></button>
-      </div><small>${Number(day.slice(-2))}</small></div>`;
-  }).join("");
-
-  $("#heatmap").innerHTML = daysBack(56).map(day=>{
-    const count = list.filter(e=>e.date===day).length;
-    const label = `${dateText(day)}: записей — ${count}`;
-    return `<button class="cell" data-level="${Math.min(4,count)}"
-      data-tip="${esc(label)}" aria-label="${esc(label)}"></button>`;
-  }).join("");
+  return `<div class="glass card">
+    <h3>Последние 14 дней</h3>
+    <p class="caption">${numeric?esc(chartUnit)+" по дням":"Количество записей"}</p>
+    <div class="chart">
+      ${days.map((day,index)=>{
+        const value = values[index];
+        const label = `${dateText(day)}: ${fmt(value)} ${chartUnit}`;
+        return `<div class="column"><div class="bar-space">
+          <button class="bar" style="height:${Math.max(2,value/max*100)}%;opacity:${value?1:.25}"
+            data-tip="${esc(label)}" aria-label="${esc(label)}"></button>
+          </div><small>${Number(day.slice(-2))}</small></div>`;
+      }).join("")}
+    </div>
+    <p class="caption">Нажмите на столбец, чтобы увидеть значение.</p>
+  </div>`;
 }
 
-function syncFields() {
-  const type = $("#habitType").value;
-  $("#targetField").hidden = type==="boolean";
-  $("#habitTarget").required = type!=="boolean";
-  $("#habitTarget").disabled = type==="boolean";
-  $("#unitField").hidden = type!=="number";
+function statsHTML(list,habit) {
+  const last14 = daysBack(14);
+  const active = uniqueDays(list.filter(e=>last14.includes(e.date)));
+  let first = list.length;
+  let firstLabel = "записей всего";
+  let third;
+  let thirdLabel;
+
+  if (habit && habit.type!=="boolean") {
+    const total = list.reduce((sum,e)=>sum+e.value,0);
+    first = fmt(total);
+    firstLabel = unit(habit)+" всего";
+    third = habit.type==="duration"
+      ? fmt(list.length?total/list.length:0)
+      : list.length;
+    thirdLabel = habit.type==="duration"?"мин / сессию":"записей всего";
+  } else {
+    third = uniqueDays(list);
+    thirdLabel = "дней за всё время";
+  }
+
+  return `<div class="stats">
+    <div class="glass stat"><strong>${first}</strong><span>${esc(firstLabel)}</span></div>
+    <div class="glass stat"><strong>${active}/14</strong><span>дней с практикой</span></div>
+    <div class="glass stat"><strong>${third}</strong><span>${thirdLabel}</span></div>
+  </div>`;
 }
 
-$("#addHabit").onclick = ()=>{
+function renderProgress() {
+  const filter = $("#statsFilter").value;
+  const h = habits.find(h=>h.id===filter);
+  const list = entries.filter(e=>!filter||e.habitId===filter);
+
+  $("#progressContent").innerHTML = statsHTML(list,h)+chartHTML(list,h)+`
+    <div class="glass card spaced">
+      <h3>Календарь возвращений</h3>
+      <p class="caption">56 дней, слева направо. Насыщенность — число записей.</p>
+      <div class="heatmap">
+        ${daysBack(56).map(day=>{
+          const count = list.filter(e=>e.date===day).length;
+          const label = `${dateText(day)}: записей — ${count}`;
+          return `<button class="cell" data-level="${Math.min(4,count)}"
+            data-tip="${esc(label)}" aria-label="${esc(label)}"></button>`;
+        }).join("")}
+      </div>
+    </div>`;
+}
+
+function renderDetail() {
+  const h = habits.find(h=>h.id===selectedHabitId);
+  if (!h) {
+    $("#habitDetail").innerHTML = "";
+    if (currentPage==="habit") showPage("garden");
+    return;
+  }
+  const list = byHabit(h.id);
+  const archived = isArchived(h);
+  const target = h.type==="boolean"?"Одна практика в день":`Цель: ${fmt(h.target)} ${unit(h)} в день`;
+
+  $("#habitDetail").innerHTML = `
+    <div class="glass card">
+      <div class="detail-heading">
+        <div class="habit-icon detail-icon">${esc(h.icon)}</div>
+        <div><h2>${esc(h.name)}</h2><p class="caption">${esc(target)}</p></div>
+      </div>
+      ${archived?`
+        <span class="pill">Привычка на паузе</span>
+        <p class="note-box">История, растение и опыт сохранены. Можно вернуться в любой момент.</p>
+        <div class="actions"><button data-restore="${esc(h.id)}">Вернуть привычку</button></div>
+      `:`
+        <div class="detail-primary">
+          <div><p class="caption">Сегодня</p><div class="value">${todayHTML(h)}</div></div>
+          <button data-add="${esc(h.id)}">+ Записать практику</button>
+        </div>
+        <div class="track spaced">
+          <div style="width:${Math.min(100,dailyValue(h,dateKey())/h.target*100)}%"></div>
+        </div>
+      `}
+      ${h.prompt?`<div class="note-box"><p class="caption">Вопрос для дневника</p>${esc(h.prompt)}</div>`:""}
+    </div>
+
+    <div class="spaced">${statsHTML(list,h)}</div>
+    ${chartHTML(list,h)}
+
+    <div class="section-head row"><h2>История практики</h2><span class="caption">${list.length} записей</span></div>
+    <div class="list">${entriesHTML(list,true)}</div>
+
+    <div class="glass card settings spaced">
+      <h3>${archived?"Удаление навсегда":"Можно сделать паузу"}</h3>
+      <p class="caption">${archived
+        ?"Удаление уничтожит привычку и все её записи. Сначала сохраните резервную копию."
+        :"Архив убирает привычку из списка «Сегодня», но сохраняет записи, растение и опыт."}</p>
+      <div class="actions">
+        ${archived
+          ?`<button class="danger" data-delete-habit="${esc(h.id)}">Удалить привычку и записи</button>`
+          :`<button class="secondary" data-archive="${esc(h.id)}">Перенести в архив</button>`}
+      </div>
+    </div>`;
+}
+
+/* Создание и редактирование привычки */
+function syncHabitFields() {
+  const boolean = $("#habitType").value==="boolean";
+  $("#targetField").hidden = boolean;
+  $("#habitTarget").disabled = boolean;
+  $("#habitTarget").required = !boolean;
+  $("#unitField").hidden = $("#habitType").value!=="number";
+}
+
+function openHabitForm(id=null) {
+  if (!db || busy) return;
+  const h = id?habits.find(h=>h.id===id):null;
+  if (id&&!h) return;
+  editingHabitId = id;
   $("#habitForm").reset();
-  syncFields();
+  $("#habitType").disabled = false;
+  $("#habitUnit").disabled = false;
+  $("#habitHeading").textContent = h?"Редактирование привычки":"Новая привычка";
+  $("#saveHabit").textContent = h?"Сохранить изменения":"Посадить";
+  $("#editHelp").hidden = !h;
+
+  if (h) {
+    $("#habitName").value = h.name;
+    const select = $("#habitIcon");
+    if (![...select.options].some(option=>option.value===h.icon)) {
+      select.add(new Option(h.icon,h.icon));
+    }
+    select.value = h.icon;
+    $("#habitType").value = h.type;
+    $("#habitTarget").value = h.target;
+    $("#habitUnit").value = h.unit||"";
+    $("#habitPrompt").value = h.prompt||"";
+    const locked = byHabit(h.id).length>0;
+    $("#habitType").disabled = locked;
+    $("#habitUnit").disabled = locked;
+  }
+  syncHabitFields();
   $("#habitDialog").showModal();
-};
-$("#habitType").onchange = syncFields;
-$("#settingsButton").onclick = ()=>setPage("settings");
-$("#journalFilter").onchange = renderJournal;
-$("#statsFilter").onchange = renderStats;
+}
+
+$("#addHabit").onclick = ()=>openHabitForm();
+$("#editHabit").onclick = ()=>openHabitForm(selectedHabitId);
+$("#habitType").onchange = syncHabitFields;
 
 $("#habitForm").onsubmit = event=>{
   event.preventDefault();
+  const id = editingHabitId;
+  const old = habits.find(h=>h.id===id);
+  if (id&&!old) return toast("Привычка не найдена.");
+  const locked = old&&byHabit(id).length>0;
   const name = $("#habitName").value.trim();
-  if (!name) return toast("Введите название привычки.");
-
-  const type = $("#habitType").value;
+  if (!name) return toast("Введите название.");
+  const type = locked?old.type:$("#habitType").value;
   const target = type==="boolean"?1:Number($("#habitTarget").value);
   if (!Number.isFinite(target)||target<=0||target>1000000) return toast("Проверьте цель.");
 
+  const values = {
+    name,icon:$("#habitIcon").value,type,target,
+    unit:locked?old.unit:type==="number"?$("#habitUnit").value.trim()||"раз":"",
+    prompt:$("#habitPrompt").value.trim()
+  };
+
   run(async()=>{
-    const habit = {
-      id:crypto.randomUUID(),name,icon:$("#habitIcon").value,type,target,
-      unit:type==="number"?$("#habitUnit").value.trim()||"раз":"",
-      prompt:$("#habitPrompt").value.trim(),createdAt:new Date().toISOString()
-    };
-    await write(["habits"],tx=>tx.objectStore("habits").put(habit));
+    await write(["habits","entries"],(tx,abort)=>{
+      const store = tx.objectStore("habits");
+      if (!id) {
+        store.add({...values,id:crypto.randomUUID(),createdAt:new Date().toISOString(),archived:false});
+        return;
+      }
+      const get = store.get(id);
+      get.onsuccess = ()=>{
+        const current = get.result;
+        if (!current) return abort("Привычка удалена в другой вкладке.");
+        const check = tx.objectStore("entries").openCursor();
+        let hasEntries = false;
+        check.onsuccess = ()=>{
+          const cursor = check.result;
+          if (cursor) {
+            if (cursor.value.habitId===id) hasEntries = true;
+            cursor.continue();
+            return;
+          }
+          if (hasEntries&&(values.type!==current.type||values.unit!==current.unit)) {
+            return abort("У привычки уже есть записи. Тип и единицу менять нельзя.");
+          }
+          store.put({...current,...values});
+        };
+      };
+    });
     $("#habitDialog").close();
     await refresh();
-    toast("В саду появилось новое растение.");
+    toast(id?"Привычка обновлена.":"В саду появилось новое растение.");
   });
 };
 
+/* Записи */
 function openEntry(habitId,entryId=null) {
+  if (!db || busy) return;
   const h = habits.find(h=>h.id===habitId);
   if (!h) return;
-  const e = entries.find(e=>e.id===entryId);
-  activeHabit = habitId;
-  editingEntry = entryId;
+  if (isArchived(h)&&!entryId) return toast("Сначала восстановите привычку.");
+  const e = entryId?entries.find(e=>e.id===entryId):null;
+  if (entryId&&!e) return;
+
+  entryHabitId = habitId;
+  editingEntryId = entryId;
   $("#entryForm").reset();
   $("#entryHeading").textContent = h.name;
   $("#entryDate").max = dateKey();
@@ -695,44 +937,89 @@ function openEntry(habitId,entryId=null) {
 
 $("#entryForm").onsubmit = event=>{
   event.preventDefault();
-  const h = habits.find(h=>h.id===activeHabit);
+  const h = habits.find(h=>h.id===entryHabitId);
   if (!h) return toast("Привычка не найдена.");
+  const id = editingEntryId;
   const date = $("#entryDate").value;
   const value = h.type==="boolean"?1:Number($("#entryValue").value);
+  const note = $("#entryNote").value.trim();
+
   if (!validDate(date)||date>dateKey()) return toast("Укажите сегодняшнюю или прошедшую дату.");
   if (!Number.isFinite(value)||value<=0||value>1000000) return toast("Проверьте значение.");
 
-  const old = entries.find(e=>e.id===editingEntry);
-  const note = $("#entryNote").value.trim();
-
   run(async()=>{
-    const entry = {
-      id:old?.id||crypto.randomUUID(),habitId:h.id,date,value,note,
-      createdAt:old?.createdAt||new Date().toISOString()
-    };
-    await write(["entries"],tx=>tx.objectStore("entries").put(entry));
+    await write(["habits","entries"],(tx,abort)=>{
+      const get = tx.objectStore("habits").get(h.id);
+      get.onsuccess = ()=>{
+        const current = get.result;
+        if (!current) return abort("Привычка удалена.");
+        if (current.type!==h.type||current.unit!==h.unit) {
+          return abort("Настройки привычки изменились. Откройте форму заново.");
+        }
+        if (isArchived(current)&&!id) return abort("Привычка в архиве. Сначала восстановите её.");
+
+        const store = tx.objectStore("entries");
+        if (!id) {
+          store.add({
+            id:crypto.randomUUID(),habitId:h.id,date,value,note,
+            createdAt:new Date().toISOString()
+          });
+        } else {
+          const previous = store.get(id);
+          previous.onsuccess = ()=>{
+            if (!previous.result) return abort("Запись уже удалена.");
+            store.put({...previous.result,date,value,note});
+          };
+        }
+      };
+    });
     $("#entryDialog").close();
     await refresh();
-    toast(old?"Запись обновлена.":"Практика сохранена. Ещё один маленький шаг.");
+    toast(id?"Запись обновлена.":"Практика сохранена. Ещё один маленький шаг.");
   });
 };
+
+function archiveHabit(id,archived) {
+  if (busy) return;
+  const h = habits.find(h=>h.id===id);
+  if (!h) return;
+  if (archived&&!confirm(`Перенести «${h.name}» в архив?\n\nВсе записи и прогресс сохранятся.`)) return;
+
+  run(async()=>{
+    await write(["habits"],(tx,abort)=>{
+      const store = tx.objectStore("habits");
+      const get = store.get(id);
+      get.onsuccess = ()=>{
+        if (!get.result) return abort("Привычка не найдена.");
+        store.put({...get.result,archived});
+      };
+    });
+    await refresh();
+    toast(archived?"Привычка на паузе. История сохранена.":"Привычка снова в ежедневном списке.");
+  });
+}
 
 document.addEventListener("click",event=>{
   const button = event.target.closest("button");
   if (!button) return;
   const d = button.dataset;
-
-  if (d.page) setPage(d.page);
+  if (d.page) showPage(d.page);
   if (d.close) $("#"+d.close).close();
   if (d.tip) toast(d.tip);
-  if (d.add) openEntry(d.add);
-
-  if (d.edit) {
-    const entry = entries.find(e=>e.id===d.edit);
-    if (entry) openEntry(entry.habitId,entry.id);
+  if (d.open) {
+    selectedHabitId = d.open;
+    renderDetail();
+    showPage("habit");
   }
+  if (d.add) openEntry(d.add);
+  if (d.editEntry) {
+    const e = entries.find(e=>e.id===d.editEntry);
+    if (e) openEntry(e.habitId,e.id);
+  }
+  if (d.archive) archiveHabit(d.archive,true);
+  if (d.restore) archiveHabit(d.restore,false);
 
-  if (d.deleteEntry && confirm("Удалить эту запись?")) {
+  if (d.deleteEntry&&!busy&&confirm("Удалить эту запись?")) {
     run(async()=>{
       await write(["entries"],tx=>tx.objectStore("entries").delete(d.deleteEntry));
       await refresh();
@@ -740,13 +1027,12 @@ document.addEventListener("click",event=>{
     });
   }
 
-  if (d.deleteHabit) {
+  if (d.deleteHabit&&!busy) {
     const h = habits.find(h=>h.id===d.deleteHabit);
-    if (!h||!confirm(`Удалить «${h.name}» и все связанные записи?`)) return;
+    if (!h||!confirm(`Навсегда удалить «${h.name}» и все её записи?\n\nЭто нельзя отменить.`)) return;
     run(async()=>{
       await write(["habits","entries"],tx=>{
         tx.objectStore("habits").delete(h.id);
-        // Удаляем связанные записи из самой базы, включая записи другой вкладки.
         const request = tx.objectStore("entries").openCursor();
         request.onsuccess = ()=>{
           const cursor = request.result;
@@ -756,16 +1042,18 @@ document.addEventListener("click",event=>{
         };
       });
       await refresh();
-      toast("Привычка удалена.");
+      toast("Привычка и записи удалены.");
     });
   }
 });
 
+$("#journalFilter").onchange = renderJournal;
+$("#statsFilter").onchange = renderProgress;
+
+/* Резервные копии */
 $("#exportButton").onclick = ()=>run(async()=>{
   const data = await readAll();
-  const backup = {
-    app:"quiet-garden",version:1,exportedAt:new Date().toISOString(),...data
-  };
+  const backup = {app:"quiet-garden",version:1,exportedAt:new Date().toISOString(),...data};
   const blob = new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
@@ -775,7 +1063,7 @@ $("#exportButton").onclick = ()=>run(async()=>{
   link.click();
   link.remove();
   setTimeout(()=>URL.revokeObjectURL(url),60000);
-  toast("Сохраните резервную копию.");
+  toast("Сохраните файл в надёжном месте.");
 });
 
 function validateBackup(data) {
@@ -796,9 +1084,11 @@ function validateBackup(data) {
     if (!Number.isFinite(h.target)||h.target<=0||h.target>1000000) fail();
     if (h.type==="boolean"&&h.target!==1) fail();
     if (!text(h.unit,24)||!text(h.prompt,160)||!timeOK(h.createdAt)) fail();
+    if (h.archived!==undefined&&typeof h.archived!=="boolean") fail();
+
     const clean = {
-      id:h.id,name:h.name.trim(),icon:h.icon,type:h.type,
-      target:h.target,unit:h.unit,prompt:h.prompt,createdAt:h.createdAt
+      id:h.id,name:h.name.trim(),icon:h.icon,type:h.type,target:h.target,
+      unit:h.unit,prompt:h.prompt,createdAt:h.createdAt,archived:h.archived===true
     };
     map.set(h.id,clean);
     return clean;
@@ -807,7 +1097,7 @@ function validateBackup(data) {
   const ids = new Set();
   const cleanEntries = data.entries.map(e=>{
     if (!e||!idOK(e.id)||ids.has(e.id)||!map.has(e.habitId)) fail();
-    if (!validDate(e.date)||e.date>dateKey()) fail();
+    if (!validDate(e.date)) fail();
     if (!Number.isFinite(e.value)||e.value<=0||e.value>1000000) fail();
     if (map.get(e.habitId).type==="boolean"&&e.value!==1) fail();
     if (!text(e.note,10000)||!timeOK(e.createdAt)) fail();
@@ -817,10 +1107,13 @@ function validateBackup(data) {
       note:e.note,createdAt:e.createdAt
     };
   });
+
   return {habits:cleanHabits,entries:cleanEntries};
 }
 
-$("#importButton").onclick = ()=>$("#importFile").click();
+$("#importButton").onclick = ()=>{
+  if (!busy) $("#importFile").click();
+};
 
 $("#importFile").onchange = async event=>{
   const file = event.target.files[0];
@@ -829,17 +1122,20 @@ $("#importFile").onchange = async event=>{
   if (file.size>20*1024*1024) return toast("Максимальный размер файла — 20 МБ.");
 
   let data;
-  try { data = validateBackup(JSON.parse(await file.text())); }
-  catch(error) {
+  try {
+    data = validateBackup(JSON.parse(await file.text()));
+  } catch(error) {
     toast(error instanceof SyntaxError?"Не удалось прочитать JSON.":error.message);
     return;
   }
 
   if (!confirm(
-    `Заменить текущие данные?\nПривычек в копии: ${data.habits.length}.\nЗаписей: ${data.entries.length}.\n\nСначала скачайте текущую копию, если она нужна.`
+    `Заменить текущие данные?\n\nПривычек в копии: ${data.habits.length}.\n`+
+    `Записей: ${data.entries.length}.\n\nСначала сохраните текущую копию, если она нужна.`
   )) return;
 
   run(async()=>{
+    // Восстановление атомарное: либо всё, либо прежние данные.
     await write(["habits","entries"],tx=>{
       const h = tx.objectStore("habits");
       const e = tx.objectStore("entries");
@@ -848,20 +1144,22 @@ $("#importFile").onchange = async event=>{
       data.habits.forEach(item=>h.put(item));
       data.entries.forEach(item=>e.put(item));
     });
+    $("#habitDialog").close();
+    $("#entryDialog").close();
     await refresh();
     toast("Сад восстановлен.");
   });
 };
 
-let displayedDate = dateKey();
-
+/* Запуск и обновление */
 document.addEventListener("visibilitychange",()=>{
-  if (!document.hidden&&db) run(refresh);
+  if (!document.hidden&&db&&!busy) run(refresh);
 });
 
+let displayedDay = dateKey();
 setInterval(()=>{
-  if (db && dateKey()!==displayedDate) {
-    displayedDate = dateKey();
+  if (db&&!busy&&dateKey()!==displayedDay) {
+    displayedDay = dateKey();
     render();
   }
 },30000);
@@ -878,8 +1176,11 @@ async function init() {
   } catch(error) {
     console.error(error);
     db = null;
-    $("#habits").innerHTML =
-      '<div class="glass empty">Не удалось открыть локальное хранилище. Откройте сайт в обычном режиме Safari и обновите страницу.</div>';
+    $("#habits").innerHTML = `
+      <div class="glass empty">
+        Не удалось открыть локальное хранилище.
+        Откройте сайт в обычном режиме Safari и обновите страницу.
+      </div>`;
     toast("Хранилище недоступно.");
   }
 }
